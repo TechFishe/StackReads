@@ -1,0 +1,21 @@
+interface Book{
+    title: string,
+    readingModes: object,
+    ratingsCout: number,
+    printType: string,
+    previewLink: string,
+    panelizationSummary: object,
+    pageCount: number,
+    maturityRating: string,
+    language: string,
+    infoLink: string,
+    industryIdentifiers: object[],
+    imageLinks: object,
+    description: string,
+    contentVersion: string,
+    categories: string[],
+    canonicalVolumeLink: string,
+    averageRating: number,
+    authors: string[],
+    allowAnonLogging: boolean
+}

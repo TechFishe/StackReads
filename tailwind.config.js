@@ -4,6 +4,11 @@ export default {
   theme: {
     extend: {
       height: {
+        'fullscreen': 'calc(100vh - 88px)',
+        'hero': 'calc((100vh - 88px) * .41666667)',
+        'book': 'calc(100% - 64px)'
+      },
+      minHeight: {
         'fullscreen': 'calc(100vh - 88px)'
       },
       fontFamily: {

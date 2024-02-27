@@ -1,19 +1,11 @@
-<!-- <script setup lang="ts">
-  const text = ref([]);
-
-  async function getBooks() {
-    let response = await fetch("https://www.googleapis.com/books/v1/volumes?q=flowers+inauthor:keyes&key=AIzaSyADRoFYECCfBXXRetXWxDapzVcYFhvtqpA");
-    let data = await response.json();
-    text.value = data.items;
-  }
-
-  onMounted(() => {
-    getBooks();
+<script setup lang="ts">
+  useHead({
+    title: "Home",
   });
-</script> -->
+</script>
 
 <template>
-  <main class="h-fullscreen flex w-screen flex-col"></main>
+  <main class="flex h-fullscreen w-screen flex-col"></main>
 </template>
 
 <style scoped>
