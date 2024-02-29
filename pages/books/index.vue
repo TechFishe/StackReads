@@ -23,8 +23,8 @@
 
 <template>
   <main class="flex min-h-fullscreen w-full flex-col">
-    <article class="my-2 h-hero border-b-2 border-snow/45 px-2">
-      <span class="h-16 font-handlee text-5xl font-semibold tracking-tight">Recommended</span>
+    <article class="py-2 h-hero border-b-2 border-snow/45 px-2">
+      <span class="h-16 font-handlee text-5xl font-medium tracking-tight">Recommended</span>
       <ul id="noScrollbar" class="h-book flex w-full flex-row items-center space-x-4 overflow-x-scroll">
         <li v-for="book in books" class="aspect-auto h-full">
           <!-- Ignore error -->
@@ -32,14 +32,14 @@
         </li>
       </ul>
     </article>
-    <article class="my-2 h-hero border-b-2 border-snow/45 px-2">
-      <span class="h-16 font-handlee text-5xl font-semibold tracking-tight">Past reads</span>
+    <article class="py-2 h-hero border-b-2 border-snow/45 px-2">
+      <span class="h-16 font-handlee text-5xl font-medium tracking-tight">Past Reads</span>
     </article>
-    <article class="my-2 h-hero border-b-2 border-snow/45 px-2">
-      <span class="h-16 font-handlee text-5xl font-semibold tracking-tight">Current reads</span>
+    <article class="py-2 h-hero border-b-2 border-snow/45 px-2">
+      <span class="h-16 font-handlee text-5xl font-medium tracking-tight">Current Reads</span>
     </article>
-    <article class="mt-2 h-hero px-2">
-      <span class="h-16 font-handlee text-5xl font-semibold tracking-tight">To be read</span>
+    <article class="pt-2 h-hero px-2">
+      <span class="h-16 font-handlee text-5xl font-medium tracking-tight">To Be Read</span>
     </article>
   </main>
 </template>
