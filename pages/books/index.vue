@@ -8,14 +8,12 @@
   async function getBooks() {
     let response = await fetch("https://www.googleapis.com/books/v1/volumes?q=inauthor:riordan&startIndex=0&key=AIzaSyADRoFYECCfBXXRetXWxDapzVcYFhvtqpA");
     let data = await response.json();
-    console.log(data);
+
     for (let i = 0; i < data.items.length; i++) {
       let tempData: Book = data.items[i].volumeInfo;
 
       if (tempData.imageLinks != undefined) books.value.push(tempData);
     }
-
-    console.log(books.value.length, data.items.length);
   }
 
   onMounted(() => {
