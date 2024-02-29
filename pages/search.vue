@@ -5,7 +5,7 @@
 </script>
 
 <template>
-  <div>
+  <div id="bgArt">
     <main>
     </main>
   </div>
