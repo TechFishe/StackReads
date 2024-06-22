@@ -31,7 +31,7 @@
       query += `inauthor:${author.value}`;
     }
 
-    query += `&printType=books&startIndex=${startIndex}&maxResults=40&key=${import.meta.env.BOOK_API}`;
+    query += `&printType=books&startIndex=${startIndex}&maxResults=40&key=${import.meta.env.PUBLIC_BOOK_API}`;
 
     const response = await fetch(query);
     const data = await response.json();
