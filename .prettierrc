@@ -1,11 +1,20 @@
 {
-    "plugins": ["prettier-plugin-tailwindcss"],
-    "singleAttributePerLine": false,
-    "tabWidth": 2,
-    "trailingComma": "es5",
-    "bracketSpacing": true,
-    "bracketSameLine": true,
-    "semi": true,
-    "vueIndentScriptAndStyle": true,
-    "printWidth": 600
+  "plugins": ["prettier-plugin-tailwindcss", "prettier-plugin-astro"],
+  "singleAttributePerLine": false,
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "bracketSpacing": true,
+  "bracketSameLine": true,
+  "semi": true,
+  "singleQuote": true,
+  "vueIndentScriptAndStyle": true,
+  "printWidth": 600,
+  "overrides": [
+    {
+      "files": "*.astro",
+      "options": {
+        "parser": "astro"
+      }
+    }
+  ]
 }

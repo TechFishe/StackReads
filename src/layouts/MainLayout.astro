@@ -1,0 +1,41 @@
+---
+import '@fontsource-variable/red-hat-mono';
+
+import NavBtn from '@astroBlocks/NavBtn';
+
+interface Props {
+  title: string;
+}
+
+const { title }: Props = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <script is:inline src="https://kit.fontawesome.com/71e652acea.js" crossorigin="anonymous"></script>
+    <title>StackReads | {title}</title>
+  </head>
+  <body class="bg-Woodsmoke-950 text-SpringWood-50 min-h-screen w-screen font-RedHat overflow-x-hidden">
+    <header class="flex items-center absolute w-full backdrop-blur-sm h-20 px-4 py-1 border-b border-b-SpringWood-50/50">
+      <section class="flex w-1/2 items-center">
+        <i class="fa-light fa-books w-12 h-12 subpixel-antialiased mr-4"></i>
+        <div class="border rounded-full border-SpringWood-50/50 h-10 w-0.5"></div>
+        <span class="ml-4 text-6xl tracking-wide font-Playpen text-MonteCarlo-300">StackReads</span>
+      </section>
+      <nav class="flex w-1/2 items-center justify-end space-x-8">
+        <NavBtn text="Home" icon="house" url="/" />
+        <NavBtn text="TBR" icon="bookmark" url="/user/tbr" />
+        <NavBtn text="Search" icon="magnifying-glass" url="/search" />
+        <NavBtn text="User" icon="user" url="/user" />
+      </nav>
+    </header>
+    <slot />
+    <footer class="border-t border-t-SpringWood-50/50 px-4 py-1 relative flex items-center justify-center">
+      <span>Made with 💙 by Jacob Barker</span>
+    </footer>
+  </body>
+</html>
