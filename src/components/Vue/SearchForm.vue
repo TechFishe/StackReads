@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { onMounted, ref, type Ref } from 'vue';
+  import { ref, type Ref } from 'vue';
 
   const props = defineProps<{
     url: string;
@@ -31,7 +31,7 @@
       query += `inauthor:${author.value}`;
     }
 
-    query += `&printType=books&startIndex=${startIndex}&maxResults=40&key=${import.meta.env.PUBLIC_BOOK_API_KEY}`;
+    query += `&printType=books&startIndex=${startIndex}&maxResults=40&key=${import.meta.env.BOOK_API}`;
 
     const response = await fetch(query);
     const data = await response.json();
