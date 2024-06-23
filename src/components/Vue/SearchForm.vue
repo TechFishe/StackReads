@@ -32,6 +32,7 @@
     }
 
     query += `&printType=books&startIndex=${startIndex}&maxResults=40&key=${import.meta.env.PUBLIC_BOOK_API}`;
+    console.log(query);
 
     const response = await fetch(query);
     const data = await response.json();
