@@ -62,7 +62,7 @@
       </article>
     </div>
     <article class="w-11/12">
-      <ul class="grid w-full grid-cols-1 grid-rows-10 items-end justify-evenly justify-items-center space-y-6 md:grid-cols-5 md:grid-rows-2 2xl:grid-cols-10 2xl:grid-rows-1 2xl:space-y-0">
+      <ul class="grid w-full grid-cols-2 grid-rows-5 items-end justify-evenly justify-items-center space-y-6 md:grid-cols-5 md:grid-rows-2 2xl:grid-cols-10 2xl:grid-rows-1 2xl:space-y-0">
         <li v-for="book in currBooks" class="group h-52 bg-Woodsmoke-950 shadow-lg shadow-transparent transition-all ease-out hover:scale-105 hover:opacity-80 hover:shadow-MonteCarlo-300/40">
           <a :href="props.url + `/books/${book.id}`" class="transition-opacity ease-out group-hover:opacity-90">
             <img :src="book.volumeInfo.imageLinks.thumbnail" alt="Book cover" class="h-full rounded-sm" />
