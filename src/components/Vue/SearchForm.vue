@@ -48,7 +48,7 @@
 
 <template>
   <div class="flex h-3/4 w-5/6 flex-col items-center justify-center space-y-12">
-    <article class="flex w-5/6 flex-col items-center justify-center space-y-4 rounded-md bg-Woodsmoke-900/60 px-4 py-1 lg:w-3/4 xl:w-2/3 2xl:w-1/2">
+    <article class="flex w-full flex-col items-center justify-center space-y-4 rounded-md bg-Woodsmoke-900/60 px-4 py-1 md:w-3/4 lg:w-2/3 xl:w-1/2 2xl:w-5/12">
       <h1 class="w-full border-b border-b-SpringWood-50/25 pb-1 text-center font-Playpen text-5xl font-light">Search</h1>
       <form @submit.prevent="queryBooks" method="get" class="flex w-full flex-col items-center justify-center space-y-4 pb-1">
         <section class="flex w-full flex-col items-center space-y-4 px-4 md:flex-row md:space-x-4 md:space-y-0 lg:px-8">
