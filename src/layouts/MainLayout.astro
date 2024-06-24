@@ -20,7 +20,7 @@ const { title }: Props = Astro.props;
     <title>StackReads | {title}</title>
   </head>
   <body class="bg-Woodsmoke-950 relative text-SpringWood-50 min-h-screen w-screen font-RedHat overflow-x-hidden">
-    <header class="flex items-center absolute w-full backdrop-blur-sm h-20 px-4 py-1 border-b border-b-SpringWood-50/50">
+    <header class="flex items-center absolute w-full backdrop-blur-[2px] h-20 px-4 py-1 border-b border-b-SpringWood-50/50">
       <section class="flex md:w-1/2 w-full items-center">
         <div class="hidden lg:flex lg:items-center">
           <i class="fa-light fa-books w-12 h-12 subpixel-antialiased mr-4"></i>
@@ -36,7 +36,7 @@ const { title }: Props = Astro.props;
       </nav>
     </header>
     <slot />
-    <nav class="md:hidden flex absolute bottom-16 w-fit right-1/2 left-1/2 sm:px-12 px-8 py-1 -translate-x-1/2 items-center justify-center space-x-6 sm:space-x-8 bg-Woodsmoke-900/45 rounded-lg">
+    <nav class="md:hidden flex fixed bottom-0 mb-8 w-fit right-1/2 left-1/2 sm:px-12 px-8 py-1 -translate-x-1/2 items-center justify-center space-x-6 sm:space-x-8 bg-Woodsmoke-900/80 rounded-lg">
       <NavBtn text="Home" icon="house" url="/" />
       <NavBtn text="TBR" icon="bookmark" url="/user/tbr" />
       <NavBtn text="Search" icon="magnifying-glass" url="/search" />
