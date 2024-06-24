@@ -12,7 +12,8 @@ const book: any = await request.json();
       <section class="flex flex-col">
         <h1 class="text-5xl font-medium tracking-tight pb-3">{book.volumeInfo.title}</h1>
         <div class="flex border-t-2 border-t-SpringWood-50/35 w-fit pt-1 pr-8">
-          <span class="text-xl tracking-tighter text-MonteCarlo-300">By: </span>
+          <span class="text-xl tracking-tighter text-MonteCarlo-300">By:</span>
+          <br />
           <span class="text-lg tracking-tighter italic font-Playpen">{book.volumeInfo.authors}</span>
         </div>
       </section>
