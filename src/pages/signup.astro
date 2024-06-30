@@ -1,12 +1,12 @@
 ---
 import MainLayout from '@layouts/MainLayout';
 
-import SearchForm from '@vueBlocks/SearchForm';
+import SignUpForm from '@vueBlocks/SignUpForm';
 ---
 
-<MainLayout title="Search">
+<MainLayout title="Sign up">
   <main id="bgArt" class="min-h-screen w-screen flex items-center justify-center pb-8 pt-28">
-    <SearchForm url={Astro.url.origin} client:only="vue" />
+    <SignUpForm client:only="vue" />
   </main>
 </MainLayout>
 

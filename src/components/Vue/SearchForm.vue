@@ -5,9 +5,9 @@
     url: string;
   }>();
 
-  const title: Ref<string> = ref('');
-  const author: Ref<string> = ref('');
-  const error: Ref<string> = ref('');
+  const title = ref('');
+  const author = ref('');
+  const error = ref('');
 
   const currBooks: Ref<any[]> = ref([]);
 
@@ -33,11 +33,21 @@
 
     query += `&printType=books&startIndex=${startIndex}&maxResults=40&key=${import.meta.env.PUBLIC_BOOK_API}`;
 
-    const response = await fetch(query);
-    const data = await response.json();
-    let books: any[] = data.items;
-    books = books.filter((book: any) => book.saleInfo.saleability !== 'NOT_FOR_SALE');
+    let books: any[] = [];
+    try {
+      const response = await fetch(query);
+      const data = await response.json();
+      books = data.items;
+      books = books.filter((book: any) => book.saleInfo.saleability !== 'NOT_FOR_SALE');
+    } catch {
+      error.value = 'Unable to preform a search search';
+      return [];
+    }
 
+    if (books.length === 0) {
+      error.value = 'No books found for that search';
+      return [];
+    }
     while (books.length > 10) {
       books.pop();
     }
@@ -47,7 +57,7 @@
 </script>
 
 <template>
-  <div class="flex h-3/4 w-full flex-col items-center justify-center space-y-8">
+  <div class="flex w-full flex-col items-center justify-center">
     <div class="flex w-5/6 items-center justify-center">
       <article class="flex w-full flex-col items-center justify-center space-y-4 rounded-md bg-Woodsmoke-900/60 px-4 py-1 md:w-3/4 lg:w-2/3 xl:w-1/2 2xl:w-5/12">
         <h1 class="w-full border-b border-b-SpringWood-50/25 pb-1 text-center font-Playpen text-5xl font-light">Search</h1>
@@ -61,7 +71,7 @@
         </form>
       </article>
     </div>
-    <article class="w-11/12">
+    <article v-if="currBooks.length !== 0" class="mt-8 w-11/12">
       <ul class="grid w-full grid-cols-2 grid-rows-5 items-end justify-evenly justify-items-center space-y-6 md:grid-cols-5 md:grid-rows-2 2xl:grid-cols-10 2xl:grid-rows-1 2xl:space-y-0">
         <li v-for="book in currBooks" class="group h-52 bg-Woodsmoke-950 shadow-lg shadow-transparent transition-all ease-out hover:scale-105 hover:opacity-80 hover:shadow-MonteCarlo-300/40">
           <a :href="props.url + `/books/${book.id}`" class="transition-opacity ease-out group-hover:opacity-90">
