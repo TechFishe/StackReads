@@ -14,7 +14,7 @@
     auth.setPersistence(inMemoryPersistence);
 
     if (email.value === '' || pass.value === '') {
-      error.value = 'You must fill out one of the provided fields';
+      error.value = 'Missing form data';
       return;
     }
 
@@ -26,7 +26,6 @@
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        body: 'true',
       });
 
       if (response.redirected) {

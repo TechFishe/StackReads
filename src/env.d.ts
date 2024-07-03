@@ -16,3 +16,13 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+interface SignUpData {
+  email: string;
+  phone: string;
+  pass: string;
+  username: string;
+  age: number;
+  gender: string;
+  animal: string;
+}
