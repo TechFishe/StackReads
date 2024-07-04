@@ -18,6 +18,7 @@ interface ImportMeta {
 }
 
 interface SignUpData {
+  uid: string;
   email: string;
   phone: string;
   pass: string;
@@ -25,4 +26,5 @@ interface SignUpData {
   age: number;
   gender: string;
   animal: string;
+  pfp: string;
 }

@@ -31,7 +31,8 @@
       if (response.redirected) {
         window.location.assign(response.url);
       }
-    } catch {
+    } catch (_error) {
+      console.error(_error);
       error.value = 'Unable to sign in';
       return;
     }

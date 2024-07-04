@@ -1,12 +1,13 @@
 import type { APIRoute } from 'astro';
 
 import { app } from '@firebase/server';
-import { getAuth } from 'firebase-admin/auth';
+import { UserRecord, getAuth } from 'firebase-admin/auth';
 import { Timestamp, getFirestore } from 'firebase-admin/firestore';
 
 export const POST: APIRoute = async ({ request, redirect }) => {
   const auth = getAuth(app);
   let user: SignUpData = {
+    uid: '',
     email: '',
     phone: '',
     pass: '',
@@ -14,6 +15,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     age: -1,
     gender: '',
     animal: '',
+    pfp: '',
   };
 
   await request
@@ -22,6 +24,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
       user = data as SignUpData;
     })
     .catch((error) => {
+      console.error(error);
       return new Response('Error parsing user data', error);
     });
 
@@ -31,24 +34,32 @@ export const POST: APIRoute = async ({ request, redirect }) => {
       emailVerified: true,
       password: user.pass,
       displayName: user.username,
+      photoURL: user.pfp,
+    })
+    .then((data: UserRecord) => {
+      user.uid = data.uid;
     })
     .catch((error) => {
+      console.error(error);
       return new Response('Error creating user', error);
     });
 
   await getFirestore(app)
     .collection('users')
-    .add({
+    .doc(user.uid)
+    .set({
       email: user.email,
       phone: user.phone,
       username: user.username,
       age: user.age,
       gender: user.gender,
       animal: user.animal,
+      pfp: user.pfp,
       joinedAt: Timestamp.now(),
       lastSignedIn: null,
     })
     .catch((error) => {
+      console.error(error);
       return new Response('Error creating user doc', error);
     });
 
