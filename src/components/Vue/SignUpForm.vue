@@ -155,7 +155,7 @@
           <input v-model="animal" type="text" name="animal" id="animal" placeholder="Favorite animal" autocomplete="off" class="w-full rounded-md bg-Woodsmoke-900/80 px-2 py-0.5 text-lg outline-0 placeholder:text-base placeholder:italic" />
         </section>
         <section v-if="screen === 2" class="flex w-full flex-col items-center space-y-4 px-4 md:grid md:grid-cols-2 md:grid-rows-5 md:gap-4 md:space-y-0 lg:px-8">
-          <img :src="pfp" alt="Preview pfp" class="h-32 w-32 rounded-lg subpixel-antialiased md:col-span-1 md:row-span-5 md:h-full md:w-full" />
+          <img :src="pfp" alt="Preview pfp" class="h-24 w-24 rounded-lg subpixel-antialiased md:col-span-1 md:row-span-5 md:h-full md:w-full" />
           <div class="flex w-full items-center justify-between justify-self-center">
             <button @click="cycleEyebrows('left')" type="button" class="rounded-md border px-4 py-1 text-xl shadow-md shadow-transparent transition-all ease-out hover:border-MonteCarlo-500 hover:text-MonteCarlo-500 hover:shadow-MonteCarlo-300/30"><i class="fa-light fa-chevron-left" /></button>
             <span class="text-lg">Eyebrows ({{ eyebrows }})</span>
@@ -175,7 +175,6 @@
             <input v-model="color" @input="setPfp" type="text" name="color" id="color" placeholder="Background color" autocomplete="off" class="w-full rounded-md bg-Woodsmoke-900/80 px-2 py-0.5 text-lg outline-0 placeholder:text-base placeholder:italic" />
             <a href="https://nekocolor.com/" target="_blank" rel="noopener noreferrer" class="rounded-md border px-4 py-1 text-xl shadow-md shadow-transparent transition-all ease-out hover:border-MonteCarlo-500 hover:text-MonteCarlo-500 hover:shadow-MonteCarlo-300/30"><i class="fa-light fa-eye-dropper" /></a>
           </div>
-
           <button type="submit" class="w-fit justify-self-center rounded-md border px-4 py-1 text-xl shadow-md shadow-transparent transition-all ease-out hover:border-green-500 hover:text-green-500 hover:shadow-green-300/30">Submit</button>
         </section>
         <span v-if="error != ''" class="font-medium text-red-500">{{ error }}</span>
