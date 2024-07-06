@@ -18,10 +18,16 @@
 
   onMounted(() => {
     window.addEventListener('scroll', onScoll);
+    window.addEventListener('scrollend', () => {
+      showNav.value = true;
+    });
   });
 
   onUnmounted(() => {
     window.removeEventListener('scroll', onScoll);
+    window.removeEventListener('scrollend', () => {
+      showNav.value = true;
+    });
   });
 </script>
 
