@@ -2,6 +2,7 @@
 import '@fontsource-variable/red-hat-mono';
 
 import NavBtn from '@astroBlocks/NavBtn';
+import NavIsland from '@vueBlocks/NavIsland';
 
 interface Props {
   title: string;
@@ -36,12 +37,12 @@ const { title }: Props = Astro.props;
       </nav>
     </header>
     <slot />
-    <nav class="md:hidden flex fixed bottom-0 mb-8 w-fit right-1/2 left-1/2 sm:px-12 px-8 py-1 -translate-x-1/2 items-center justify-center space-x-6 sm:space-x-8 bg-Woodsmoke-900/80 rounded-lg">
+    <NavIsland client:only="vue">
       <NavBtn text="Home" icon="house" url="/" />
       <NavBtn text="TBR" icon="bookmark" url="/user/tbr" />
       <NavBtn text="Search" icon="magnifying-glass" url="/search" />
       <NavBtn text="User" icon="user" url="/user" />
-    </nav>
+    </NavIsland>
     <footer class="border-t border-t-SpringWood-50/50 px-4 py-1 relative flex items-center justify-center">
       <span>Made with 💙 by Jacob Barker</span>
     </footer>
