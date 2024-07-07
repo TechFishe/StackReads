@@ -15,6 +15,8 @@
 
     if (currPos <= 32) {
       showNav.value = true;
+    } else if (document.body.scrollHeight - currPos <= window.innerHeight + 32) {
+      showNav.value = false;
     }
 
     prevPos = currPos;
