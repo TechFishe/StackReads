@@ -13,9 +13,9 @@
       showNav.value = true;
     }
 
-    if (currPos <= 32) {
+    if (currPos <= 16) {
       showNav.value = true;
-    } else if (document.body.scrollHeight - currPos <= window.innerHeight + 32) {
+    } else if (document.body.scrollHeight - currPos <= window.innerHeight + 16) {
       showNav.value = false;
     }
 
