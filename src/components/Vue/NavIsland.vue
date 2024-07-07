@@ -7,7 +7,9 @@
   function onScoll() {
     const currPos = window.scrollY;
 
-    if (prevPos < currPos) {
+    if (currPos == 0) {
+      showNav.value = true;
+    } else if (prevPos < currPos) {
       showNav.value = false;
     } else if (prevPos > currPos) {
       showNav.value = true;
@@ -18,16 +20,10 @@
 
   onMounted(() => {
     window.addEventListener('scroll', onScoll);
-    window.addEventListener('scrollend', () => {
-      showNav.value = true;
-    });
   });
 
   onUnmounted(() => {
     window.removeEventListener('scroll', onScoll);
-    window.removeEventListener('scrollend', () => {
-      showNav.value = true;
-    });
   });
 </script>
 
