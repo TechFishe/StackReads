@@ -7,11 +7,13 @@
   function onScoll() {
     const currPos = window.scrollY;
 
-    if (currPos == 0) {
-      showNav.value = true;
-    } else if (prevPos < currPos) {
+    if (prevPos < currPos) {
       showNav.value = false;
     } else if (prevPos > currPos) {
+      showNav.value = true;
+    }
+
+    if (currPos <= 32) {
       showNav.value = true;
     }
 
@@ -29,7 +31,7 @@
 
 <template>
   <Transition name="fade">
-    <nav v-if="showNav" class="fixed bottom-0 left-1/2 right-1/2 mb-12 flex w-fit -translate-x-1/2 items-center justify-center space-x-6 rounded-lg bg-Woodsmoke-900/80 px-8 py-1 sm:space-x-8 sm:px-12 md:hidden">
+    <nav v-if="showNav" class="fixed bottom-0 left-1/2 right-1/2 mb-4 flex w-fit -translate-x-1/2 items-center justify-center space-x-6 rounded-lg bg-Woodsmoke-900/80 px-8 py-1 sm:space-x-8 sm:px-12 md:hidden">
       <slot />
     </nav>
   </Transition>
