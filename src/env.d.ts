@@ -1,5 +1,7 @@
 /// <reference types="astro/client" />
 
+import type { Timestamp } from 'firebase-admin/firestore';
+
 interface ImportMetaEnv {
   readonly FIREBASE_PRIVATE_KEY_ID: string;
   readonly FIREBASE_PRIVATE_KEY: string;

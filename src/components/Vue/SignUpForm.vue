@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import type { SignUpData } from 'src/env';
   import { onMounted, ref } from 'vue';
 
   type Dir = 'left' | 'right';

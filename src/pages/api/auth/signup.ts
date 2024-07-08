@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import type { SignUpData } from 'src/env';
 
 import { app } from '@firebase/server';
 import { UserRecord, getAuth } from 'firebase-admin/auth';

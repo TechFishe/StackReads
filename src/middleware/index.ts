@@ -31,8 +31,7 @@ async function CheckAuth(context: APIContext): Promise<MiddlewareReturn> {
     return output;
   }
 
-  //@ts-expect-error Thinks that the object might be undefined -_-
-  const cookie = context.cookies.get('__session').value;
+  const cookie = context.cookies.get('__session')?.value as string;
   try {
     const parsedCookie = await auth.verifySessionCookie(cookie);
     if (parsedCookie) return output;
