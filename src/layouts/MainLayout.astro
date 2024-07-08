@@ -38,10 +38,12 @@ const { title }: Props = Astro.props;
     </header>
     <slot />
     <NavIsland client:only="vue">
-      <NavBtn text="Home" icon="house" url="/" />
-      <NavBtn text="TBR" icon="bookmark" url="/user/tbr" />
-      <NavBtn text="Search" icon="magnifying-glass" url="/search" />
-      <NavBtn text="User" icon="user" url="/user" />
+      <div class="flex items-center justify-center space-x-6 sm:space-x-8">
+        <NavBtn text="Home" icon="house" url="/" />
+        <NavBtn text="TBR" icon="bookmark" url="/user/tbr" />
+        <NavBtn text="Search" icon="magnifying-glass" url="/search" />
+        <NavBtn text="User" icon="user" url="/user" />
+      </div>
     </NavIsland>
     <footer class="border-t border-t-SpringWood-50/50 px-4 py-1 h-[2.5rem] relative flex items-center justify-center">
       <span>Made with 💙 by Jacob Barker</span>
