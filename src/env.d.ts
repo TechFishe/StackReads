@@ -1,26 +1,62 @@
 /// <reference types="astro/client" />
 
-import type { Timestamp } from 'firebase-admin/firestore';
+declare namespace App {
+  interface Locals {
+    user: WithId<UserDoc> | null;
+  }
+}
 
 interface ImportMetaEnv {
-  readonly FIREBASE_PRIVATE_KEY_ID: string;
-  readonly FIREBASE_PRIVATE_KEY: string;
-  readonly FIREBASE_PROJECT_ID: string;
-  readonly FIREBASE_CLIENT_EMAIL: string;
-  readonly FIREBASE_CLIENT_ID: string;
-  readonly FIREBASE_AUTH_URI: string;
-  readonly FIREBASE_TOKEN_URI: string;
-  readonly FIREBASE_AUTH_CERT_URL: string;
-  readonly FIREBASE_CLIENT_CERT_URL: string;
   readonly PUBLIC_BOOK_API: string;
+  readonly MONGO_DB_ADMIN_PASS: string;
+  readonly MONGO_DB_SEARCH_PASS: string;
+  readonly MONGO_DB_SIGNIN_PASS: string;
+  readonly JWT_PASS: string;
+  readonly JWT_REFRESH_PASS: string;
+  readonly JWT_UID_PASS: string;
 }
 
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
 
+interface ErrorInfo {
+  text: string;
+}
+
+interface SearchDoc {
+  timestamp: Date;
+  knownUser: boolean;
+  title: string;
+  author: string;
+}
+
 interface SignUpData {
-  uid: string;
+  email: string;
+  phone: string;
+  pass: string;
+  username: string;
+  age: number;
+  gender: string;
+  animal: string;
+  pfp: string;
+}
+
+interface SignInData {
+  email: string;
+  pass: string;
+  remember: boolean;
+}
+
+interface TokenDoc {
+  createdAt: Date;
+  uid: ObjectId;
+  token: string;
+}
+
+interface UserDoc {
+  createdAt: Date;
+  lastSignedIn: Date | null;
   email: string;
   phone: string;
   pass: string;

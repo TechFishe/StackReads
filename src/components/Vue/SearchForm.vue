@@ -44,6 +44,14 @@
       return [];
     }
 
+    await fetch('/api/search', {
+      method: 'POST',
+      body: JSON.stringify({
+        title: title.value,
+        author: author.value,
+      }),
+    });
+
     if (books.length === 0) {
       error.value = 'No books found for that search';
       return [];
