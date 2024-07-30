@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import type { SignUpData } from 'src/env';
   import { onMounted, ref } from 'vue';
 
   type Dir = 'left' | 'right';
@@ -22,7 +21,7 @@
   const eyes = ref(Math.floor(Math.random() * 26));
   const mouth = ref(Math.floor(Math.random() * 30));
 
-  function checkScreenOne() {
+  async function checkScreenOne() {
     error.value = '';
 
     if (email.value === '' || phone.value === '' || passOne.value === '' || passTwo.value === '') {
@@ -32,6 +31,14 @@
 
     if (passOne.value !== passTwo.value) {
       error.value = 'Passwords do not match';
+      return;
+    }
+
+    const response = await fetch(`/api/auth/duplication/${email.value}/${phone.value}.ts`);
+
+    if (response.status !== 200) {
+      const _error = (await response.json()) as ErrorInfo;
+      error.value = _error.text;
       return;
     }
 
@@ -109,28 +116,25 @@
   async function signUp() {
     error.value = '';
 
-    try {
-      const response = await fetch('/api/auth/signup', {
-        method: 'POST',
-        body: JSON.stringify({
-          uid: '',
-          email: email.value,
-          phone: phone.value,
-          pass: passOne.value,
-          username: username.value,
-          age: parseInt(age.value),
-          gender: gender.value,
-          animal: animal.value,
-          pfp: pfp.value,
-        } as SignUpData),
-      });
+    const response = await fetch('/api/auth/signup', {
+      method: 'POST',
+      body: JSON.stringify({
+        email: email.value,
+        phone: phone.value,
+        pass: passOne.value,
+        username: username.value,
+        age: parseInt(age.value),
+        gender: gender.value,
+        animal: animal.value,
+        pfp: pfp.value,
+      } as SignUpData),
+    });
 
-      if (response.redirected) {
-        window.location.assign(response.url);
-      }
-    } catch (_error) {
-      console.error(_error);
-      error.value = 'Unable to sign up';
+    if (response.redirected) {
+      window.location.assign(response.url);
+    } else {
+      const _error = (await response.json()) as ErrorInfo;
+      error.value = _error.text;
       return;
     }
   }

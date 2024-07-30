@@ -1,68 +1,33 @@
 import type { APIRoute } from 'astro';
-import type { SignUpData } from 'src/env';
 
-import { app } from '@firebase/server';
-import { UserRecord, getAuth } from 'firebase-admin/auth';
-import { Timestamp, getFirestore } from 'firebase-admin/firestore';
+import { MongoClient } from 'mongodb';
+import { hash } from 'bcrypt';
 
 export const POST: APIRoute = async ({ request, redirect }) => {
-  const auth = getAuth(app);
-  let user: SignUpData = {
-    uid: '',
-    email: '',
-    phone: '',
-    pass: '',
-    username: '',
-    age: -1,
-    gender: '',
-    animal: '',
-    pfp: '',
-  };
+  const pass = import.meta.env.MONGO_DB_SIGNIN_PASS;
 
-  await request
-    .json()
-    .then((data) => {
-      user = data as SignUpData;
-    })
-    .catch((error) => {
-      console.error(error);
-      return new Response('Error parsing user data', error);
-    });
+  const data = (await request.json()) as SignUpData;
 
-  await auth
-    .createUser({
-      email: user.email,
-      emailVerified: true,
-      password: user.pass,
-      displayName: user.username,
-      photoURL: user.pfp,
-    })
-    .then((data: UserRecord) => {
-      user.uid = data.uid;
-    })
-    .catch((error) => {
-      console.error(error);
-      return new Response('Error creating user', error);
-    });
+  const mongo = new MongoClient(`mongodb+srv://signin:${pass}@main.zc2oijy.mongodb.net/?retryWrites=false&w=majority&appName=Main`);
+  const userDb = mongo.db('Gen').collection<UserDoc>('users');
 
-  await getFirestore(app)
-    .collection('users')
-    .doc(user.uid)
-    .set({
-      email: user.email,
-      phone: user.phone,
-      username: user.username,
-      age: user.age,
-      gender: user.gender,
-      animal: user.animal,
-      pfp: user.pfp,
-      joinedAt: Timestamp.now(),
+  try {
+    let newUser: UserDoc = {
+      createdAt: new Date(),
       lastSignedIn: null,
-    })
-    .catch((error) => {
-      console.error(error);
-      return new Response('Error creating user doc', error);
+      ...data,
+    };
+    let tempPass: string = await hash(data.pass, 12);
+    newUser.pass = tempPass.slice(7, tempPass.length);
+
+    await userDb.insertOne(newUser);
+  } catch (err: any) {
+    console.error(err);
+    return new Response(null, {
+      status: 500,
+      statusText: 'Unable to sign up',
     });
+  }
 
   return redirect('/signin');
 };
