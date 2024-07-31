@@ -44,20 +44,21 @@ export const POST: APIRoute = async ({ request }) => {
         }
       );
 
-    const refreshToken = sign(user._id.toString(), import.meta.env.JWT_REFRESH_PASS);
+    let refreshToken: string = '';
+    if (data.remember) {
+      uidToken = sign({ uid: user._id }, import.meta.env.JWT_UID_PASS, { expiresIn: '7d' });
+      refreshToken = sign(user._id.toString(), import.meta.env.JWT_REFRESH_PASS, { expiresIn: '7d' });
+    } else {
+      uidToken = sign({ uid: user._id }, import.meta.env.JWT_UID_PASS, { expiresIn: '2h' });
+      refreshToken = sign(user._id.toString(), import.meta.env.JWT_REFRESH_PASS, { expiresIn: '2h' });
+    }
+
     const tokenDb = mongo.db('Gen').collection<TokenDoc>('tokens');
     await tokenDb.insertOne({
       createdAt: new Date(),
       uid: user._id,
       token: refreshToken,
     });
-
-    if (data.remember) {
-      uidToken = sign({ uid: user._id }, import.meta.env.JWT_UID_PASS);
-    } else {
-      uidToken = sign({ uid: user._id }, import.meta.env.JWT_UID_PASS, { expiresIn: '1h' });
-    }
-
     await userDb.updateOne({ _id: user._id }, { $set: { lastSignedIn: new Date() } });
   } catch (err: any) {
     console.error(err);
