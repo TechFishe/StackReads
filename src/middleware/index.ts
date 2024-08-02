@@ -1,3 +1,4 @@
+import type { APIContext } from 'astro';
 import { defineMiddleware } from 'astro:middleware';
 import jwt from 'jsonwebtoken';
 import { MongoClient, ObjectId, type WithId } from 'mongodb';
@@ -20,41 +21,54 @@ export const onRequest = defineMiddleware((context, next) => {
           const response = verifyRefresh(context.cookies.get('refresh')?.value);
           if (!response.verified) return context.redirect('/signin');
 
-          try {
-            const pass = import.meta.env.MONGO_DB_SIGNIN_PASS;
-            const mongo = new MongoClient(`mongodb+srv://signin:${pass}@main.zc2oijy.mongodb.net/?retryWrites=true&w=majority&appName=Main`);
-            const userDb = mongo.db('Gen').collection<UserDoc>('users');
+          const userToken = await createNewToken(response.uid).catch((err) => {
+            console.error(err);
+            return null;
+          });
 
-            const userDoc = await userDb.findOne({ _id: new ObjectId(response.uid) });
-            if (!userDoc) return context.redirect('/signin');
+          if (!userToken) return context.redirect('/signin');
 
-            const user: UserDoc = {
-              createdAt: userDoc.createdAt,
-              lastSignedIn: userDoc.lastSignedIn,
-              email: userDoc.email,
-              phone: userDoc.phone,
-              pass: userDoc.pass,
-              username: userDoc.username,
-              age: userDoc.age,
-              gender: userDoc.gender,
-              animal: userDoc.animal,
-              pfp: userDoc.pfp,
-            };
-            const userToken = sign(user, import.meta.env.JWT_PASS, { expiresIn: '10m' });
-            context.cookies.set('user', userToken, { path: '/' });
+          context.cookies.set('user', userToken, { path: '/' });
 
-            context.locals.user = user;
-          } catch (err) {
-            return context.redirect('/signin');
-          }
-        } else {
           context.locals.user = user;
-        }
+        } else context.locals.user = user;
       });
+
+      next();
     default:
       next();
   }
 });
+
+async function createNewToken(uid: string): Promise<string | null> {
+  const pass = import.meta.env.MONGO_DB_SIGNIN_PASS;
+  const mongo = new MongoClient(`mongodb+srv://signin:${pass}@main.zc2oijy.mongodb.net/?retryWrites=true&w=majority&appName=Main`);
+  const userDb = mongo.db('Gen').collection<UserDoc>('users');
+
+  let userToken = '';
+
+  try {
+    const userDoc = await userDb.findOne({ _id: new ObjectId(uid) });
+    if (!userDoc) return null;
+
+    const user: UserDoc = {
+      createdAt: userDoc.createdAt,
+      lastSignedIn: userDoc.lastSignedIn,
+      email: userDoc.email,
+      phone: userDoc.phone,
+      pass: userDoc.pass,
+      username: userDoc.username,
+      age: userDoc.age,
+      gender: userDoc.gender,
+      animal: userDoc.animal,
+      pfp: userDoc.pfp,
+    };
+    userToken = sign(user, import.meta.env.JWT_PASS, { expiresIn: '10m' });
+  } finally {
+    mongo.close();
+    return userToken;
+  }
+}
 
 function verifyRefresh(token: string): RefreshResponse {
   let output: RefreshResponse = {
