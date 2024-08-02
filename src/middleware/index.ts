@@ -1,7 +1,6 @@
-import type { APIContext } from 'astro';
 import { defineMiddleware } from 'astro:middleware';
 import jwt from 'jsonwebtoken';
-import { MongoClient, ObjectId, type WithId } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 
 const { verify, sign, decode } = jwt;
 
@@ -10,64 +9,105 @@ interface RefreshResponse {
   uid: string;
 }
 
+interface VerifyResponse {
+  verified: boolean;
+  setCookie: boolean;
+  user?: UserDoc;
+}
+
 export const onRequest = defineMiddleware(async (context, next) => {
   switch (context.url.pathname) {
     case '/user':
       if (!context.cookies.has('user') || !context.cookies.has('refresh')) return context.redirect('/signin');
 
-      //@ts-expect-error
-      const verified = verify(context.cookies.get('user')?.value, import.meta.env.JWT_PASS, (err, user: UserDoc) => {
-        if (err) return null;
-        else
-          return {
-            createdAt: user.createdAt,
-            lastSignedIn: user.lastSignedIn,
-            email: user.email,
-            phone: user.phone,
-            pass: user.pass,
-            username: user.username,
-            age: user.age,
-            gender: user.gender,
-            animal: user.animal,
-            pfp: user.pfp,
-          } as UserDoc;
-      });
+      const userResponse = await verifyUser(context.cookies.get('user')?.value, context.cookies.get('refresh')?.value);
+      if (!userResponse.verified || !userResponse.user) return context.redirect('/signin');
+      else if (userResponse.setCookie) {
+        context.cookies.set('user', userResponse.user, { path: '/' });
+      }
 
-      if (!verified) {
-        //@ts-expect-error
-        const response = verifyRefresh(context.cookies.get('refresh')?.value);
-        if (!response.verified) return context.redirect('/signin');
+      context.locals.user = userResponse.user;
 
-        const userToken = await createNewToken(response.uid).catch((err) => {
-          console.error(err);
-          return null;
-        });
+      return next();
+    case '/search':
+      if (!context.cookies.has('user') || !context.cookies.has('refresh')) return next();
 
-        if (!userToken) return context.redirect('/signin');
+      const searchResponse = await verifyUser(context.cookies.get('user')?.value, context.cookies.get('refresh')?.value);
+      if (!searchResponse.verified || !searchResponse.user) return next();
+      else if (searchResponse.setCookie) {
+        context.cookies.set('user', searchResponse.user, { path: '/' });
+      }
 
-        const tempUser = decode(userToken) as UserDoc;
-        const user = {
-          createdAt: tempUser.createdAt,
-          lastSignedIn: tempUser.lastSignedIn,
-          email: tempUser.email,
-          phone: tempUser.phone,
-          pass: tempUser.pass,
-          username: tempUser.username,
-          age: tempUser.age,
-          gender: tempUser.gender,
-          animal: tempUser.animal,
-          pfp: tempUser.pfp,
-        };
-        context.locals.user = user;
-
-        context.cookies.set('user', user, { path: '/' });
-      } else context.locals.user = verified;
+      context.locals.user = searchResponse.user;
 
       return next();
     default:
       return next();
   }
 });
+
+async function verifyUser(userJwt?: string, refreshJwt?: string): Promise<VerifyResponse> {
+  let output: VerifyResponse = {
+    verified: false,
+    setCookie: false,
+  };
+
+  if (!userJwt || !refreshJwt) return output;
+
+  //@ts-expect-error
+  const verified = verify(userJwt, import.meta.env.JWT_PASS, (err, user: UserDoc) => {
+    if (err) return null;
+    else
+      return {
+        createdAt: user.createdAt,
+        lastSignedIn: user.lastSignedIn,
+        email: user.email,
+        phone: user.phone,
+        pass: user.pass,
+        username: user.username,
+        age: user.age,
+        gender: user.gender,
+        animal: user.animal,
+        pfp: user.pfp,
+      } as UserDoc;
+  });
+
+  if (!verified) {
+    const response = verifyRefresh(refreshJwt);
+    if (!response.verified) return output;
+
+    const userToken = await createNewToken(response.uid).catch((err) => {
+      console.error(err);
+      return null;
+    });
+
+    if (!userToken) return output;
+
+    const tempUser = decode(userToken) as UserDoc;
+    const user = {
+      createdAt: tempUser.createdAt,
+      lastSignedIn: tempUser.lastSignedIn,
+      email: tempUser.email,
+      phone: tempUser.phone,
+      pass: tempUser.pass,
+      username: tempUser.username,
+      age: tempUser.age,
+      gender: tempUser.gender,
+      animal: tempUser.animal,
+      pfp: tempUser.pfp,
+    };
+
+    output.verified = true;
+    output.setCookie = true;
+    output.user = user;
+  } else {
+    output.verified = true;
+    output.setCookie = false;
+    output.user = verified;
+  }
+
+  return output;
+}
 
 async function createNewToken(uid: string): Promise<string | null> {
   const pass = import.meta.env.MONGO_DB_SIGNIN_PASS;
