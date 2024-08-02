@@ -1,16 +1,15 @@
 ---
 import MainLayout from '@layouts/MainLayout';
-import type { WithId } from 'mongodb';
 
-const user: WithId<UserDoc> = Astro.locals.user;
+const user = Astro.locals.user;
 ---
 
 <MainLayout title="User">
   <main class="min-h-screen w-screen flex-col items-center justify-center pb-4 pt-24">
     <section class="flex"></section>
-    <img src="" alt="Profile picture" />
+    <img src={user.pfp} alt="Profile picture" />
     <div class="flex-col">
-      <h1></h1>
+      <h1>{user.username}</h1>
       <span></span>
     </div>
   </main>

@@ -24,17 +24,7 @@
       } as SignInData),
     });
 
-    if (response.status === 201) {
-      const data = await response.json();
-      window.localStorage.setItem('uidToken', data.uidToken);
-
-      const tempUrl = new URL(response.url);
-      window.location.assign(tempUrl.origin + '/user');
-    } else {
-      const _error = (await response.json()) as ErrorInfo;
-      error.value = _error.text;
-      return;
-    }
+    if (response.redirected) window.location.assign(response.url);
   }
 </script>
 

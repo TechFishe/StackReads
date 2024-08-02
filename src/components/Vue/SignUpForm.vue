@@ -154,7 +154,7 @@
           <input v-model="passTwo" type="password" name="passTwo" id="passTwo" placeholder="Confirm password" autocomplete="off" class="w-full rounded-md bg-Woodsmoke-900/80 px-2 py-0.5 text-lg outline-0 placeholder:text-base placeholder:italic" />
         </section>
         <section v-if="screen === 1" class="flex w-full flex-col items-center space-y-4 px-4 md:grid md:grid-flow-row md:grid-cols-2 md:gap-4 md:space-y-0 lg:px-8">
-          <input v-model="username" type="text" name="username" id="username" placeholder="Name" autocomplete="username" class="w-full rounded-md bg-Woodsmoke-900/80 px-2 py-0.5 text-lg outline-0 placeholder:text-base placeholder:italic" />
+          <input v-model="username" type="text" name="username" id="username" placeholder="Username" autocomplete="username" class="w-full rounded-md bg-Woodsmoke-900/80 px-2 py-0.5 text-lg outline-0 placeholder:text-base placeholder:italic" />
           <input v-model="age" type="number" name="age" id="age" placeholder="Age" autocomplete="off" class="w-full rounded-md bg-Woodsmoke-900/80 px-2 py-0.5 text-lg outline-0 placeholder:text-base placeholder:italic" />
           <input v-model="gender" type="text" name="gender" id="gender" placeholder="Gender" autocomplete="sex" class="w-full rounded-md bg-Woodsmoke-900/80 px-2 py-0.5 text-lg outline-0 placeholder:text-base placeholder:italic" />
           <input v-model="animal" type="text" name="animal" id="animal" placeholder="Favorite animal" autocomplete="off" class="w-full rounded-md bg-Woodsmoke-900/80 px-2 py-0.5 text-lg outline-0 placeholder:text-base placeholder:italic" />

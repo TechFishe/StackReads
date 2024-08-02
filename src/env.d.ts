@@ -2,7 +2,7 @@
 
 declare namespace App {
   interface Locals {
-    user: WithId<UserDoc> | null;
+    user: UserDoc;
   }
 }
 
@@ -13,7 +13,6 @@ interface ImportMetaEnv {
   readonly MONGO_DB_SIGNIN_PASS: string;
   readonly JWT_PASS: string;
   readonly JWT_REFRESH_PASS: string;
-  readonly JWT_UID_PASS: string;
 }
 
 interface ImportMeta {
@@ -46,12 +45,6 @@ interface SignInData {
   email: string;
   pass: string;
   remember: boolean;
-}
-
-interface TokenDoc {
-  createdAt: Date;
-  uid: ObjectId;
-  token: string;
 }
 
 interface UserDoc {

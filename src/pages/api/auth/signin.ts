@@ -1,4 +1,4 @@
-import type { APIRoute } from 'astro';
+import type { APIRoute, AstroCookieSetOptions } from 'astro';
 
 import { MongoClient, ObjectId, type Filter } from 'mongodb';
 import { compare } from 'bcrypt';
@@ -6,15 +6,13 @@ import jwt from 'jsonwebtoken';
 
 const { sign } = jwt;
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   const pass = import.meta.env.MONGO_DB_SIGNIN_PASS;
 
   const data = (await request.json()) as SignInData;
 
   const mongo = new MongoClient(`mongodb+srv://signin:${pass}@main.zc2oijy.mongodb.net/?retryWrites=true&w=majority&appName=Main`);
   const userDb = mongo.db('Gen').collection<UserDoc>('users');
-
-  let uidToken: string = '';
 
   try {
     const duplicateQuery: Filter<UserDoc> = {
@@ -45,20 +43,32 @@ export const POST: APIRoute = async ({ request }) => {
       );
 
     let refreshToken: string = '';
-    if (data.remember) {
-      uidToken = sign({ uid: user._id }, import.meta.env.JWT_UID_PASS, { expiresIn: '7d' });
-      refreshToken = sign(user._id.toString(), import.meta.env.JWT_REFRESH_PASS, { expiresIn: '7d' });
-    } else {
-      uidToken = sign({ uid: user._id }, import.meta.env.JWT_UID_PASS, { expiresIn: '2h' });
-      refreshToken = sign(user._id.toString(), import.meta.env.JWT_REFRESH_PASS, { expiresIn: '2h' });
-    }
+    if (data.remember) refreshToken = sign({ uid: user._id }, import.meta.env.JWT_REFRESH_PASS, { expiresIn: '14d' });
+    else refreshToken = sign({ uid: user._id }, import.meta.env.JWT_REFRESH_PASS, { expiresIn: '1d' });
 
-    const tokenDb = mongo.db('Gen').collection<TokenDoc>('tokens');
-    await tokenDb.insertOne({
-      createdAt: new Date(),
-      uid: user._id,
-      token: refreshToken,
-    });
+    const userToken = sign(
+      {
+        createdAt: user.createdAt,
+        lastSignedIn: user.lastSignedIn,
+        email: user.email,
+        phone: user.phone,
+        pass: user.pass,
+        username: user.username,
+        age: user.age,
+        gender: user.gender,
+        animal: user.animal,
+        pfp: user.pfp,
+      },
+      import.meta.env.JWT_PASS,
+      { expiresIn: '10m' }
+    );
+    const options: AstroCookieSetOptions = {
+      path: '/',
+    };
+
+    cookies.set('user', userToken, options);
+    cookies.set('refresh', refreshToken, options);
+
     await userDb.updateOne({ _id: user._id }, { $set: { lastSignedIn: new Date() } });
   } catch (err: any) {
     console.error(err);
@@ -74,12 +84,5 @@ export const POST: APIRoute = async ({ request }) => {
     await mongo.close();
   }
 
-  return new Response(
-    JSON.stringify({
-      uidToken: uidToken,
-    }),
-    {
-      status: 201,
-    }
-  );
+  return redirect('/user');
 };
