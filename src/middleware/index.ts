@@ -3,40 +3,69 @@ import { defineMiddleware } from 'astro:middleware';
 import jwt from 'jsonwebtoken';
 import { MongoClient, ObjectId, type WithId } from 'mongodb';
 
-const { verify, sign } = jwt;
+const { verify, sign, decode } = jwt;
 
 interface RefreshResponse {
   verified: boolean;
   uid: string;
 }
 
-export const onRequest = defineMiddleware((context, next) => {
+export const onRequest = defineMiddleware(async (context, next) => {
   switch (context.url.pathname) {
     case '/user':
       if (!context.cookies.has('user') || !context.cookies.has('refresh')) return context.redirect('/signin');
+
       //@ts-expect-error
-      verify(context.cookies.get('user')?.value, import.meta.env.JWT_PASS, async (err, user: UserDoc) => {
-        if (err) {
-          //@ts-expect-error
-          const response = verifyRefresh(context.cookies.get('refresh')?.value);
-          if (!response.verified) return context.redirect('/signin');
-
-          const userToken = await createNewToken(response.uid).catch((err) => {
-            console.error(err);
-            return null;
-          });
-
-          if (!userToken) return context.redirect('/signin');
-
-          context.cookies.set('user', userToken, { path: '/' });
-
-          context.locals.user = user;
-        } else context.locals.user = user;
+      const verified = verify(context.cookies.get('user')?.value, import.meta.env.JWT_PASS, (err, user: UserDoc) => {
+        if (err) return null;
+        else
+          return {
+            createdAt: user.createdAt,
+            lastSignedIn: user.lastSignedIn,
+            email: user.email,
+            phone: user.phone,
+            pass: user.pass,
+            username: user.username,
+            age: user.age,
+            gender: user.gender,
+            animal: user.animal,
+            pfp: user.pfp,
+          } as UserDoc;
       });
 
-      next();
+      if (!verified) {
+        //@ts-expect-error
+        const response = verifyRefresh(context.cookies.get('refresh')?.value);
+        if (!response.verified) return context.redirect('/signin');
+
+        const userToken = await createNewToken(response.uid).catch((err) => {
+          console.error(err);
+          return null;
+        });
+
+        if (!userToken) return context.redirect('/signin');
+
+        const tempUser = decode(userToken) as UserDoc;
+        const user = {
+          createdAt: tempUser.createdAt,
+          lastSignedIn: tempUser.lastSignedIn,
+          email: tempUser.email,
+          phone: tempUser.phone,
+          pass: tempUser.pass,
+          username: tempUser.username,
+          age: tempUser.age,
+          gender: tempUser.gender,
+          animal: tempUser.animal,
+          pfp: tempUser.pfp,
+        };
+        context.locals.user = user;
+
+        context.cookies.set('user', user, { path: '/' });
+      } else context.locals.user = verified;
+
+      return next();
     default:
-      next();
+      return next();
   }
 });
 
