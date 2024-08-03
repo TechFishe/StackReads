@@ -1,6 +1,6 @@
 import { defineMiddleware } from 'astro:middleware';
 import jwt from 'jsonwebtoken';
-import { MongoClient, ObjectId } from 'mongodb';
+import { MongoClient, ObjectId, type WithId } from 'mongodb';
 
 const { verify, sign, decode } = jwt;
 
@@ -12,7 +12,7 @@ interface RefreshResponse {
 interface VerifyResponse {
   verified: boolean;
   setCookie: boolean;
-  user?: UserDoc;
+  user?: WithId<UserDoc>;
 }
 
 export const onRequest = defineMiddleware(async (context, next) => {
@@ -55,10 +55,11 @@ async function verifyUser(userJwt?: string, refreshJwt?: string): Promise<Verify
   if (!userJwt || !refreshJwt) return output;
 
   //@ts-expect-error
-  const verified = verify(userJwt, import.meta.env.JWT_PASS, (err, user: UserDoc) => {
+  const verified = verify(userJwt, import.meta.env.JWT_PASS, (err, user: WithId<UserDoc>) => {
     if (err) return null;
     else
       return {
+        _id: user._id,
         createdAt: user.createdAt,
         lastSignedIn: user.lastSignedIn,
         email: user.email,
@@ -69,7 +70,7 @@ async function verifyUser(userJwt?: string, refreshJwt?: string): Promise<Verify
         gender: user.gender,
         animal: user.animal,
         pfp: user.pfp,
-      } as UserDoc;
+      } as WithId<UserDoc>;
   });
 
   if (!verified) {
@@ -83,19 +84,7 @@ async function verifyUser(userJwt?: string, refreshJwt?: string): Promise<Verify
 
     if (!userToken) return output;
 
-    const tempUser = decode(userToken) as UserDoc;
-    const user = {
-      createdAt: tempUser.createdAt,
-      lastSignedIn: tempUser.lastSignedIn,
-      email: tempUser.email,
-      phone: tempUser.phone,
-      pass: tempUser.pass,
-      username: tempUser.username,
-      age: tempUser.age,
-      gender: tempUser.gender,
-      animal: tempUser.animal,
-      pfp: tempUser.pfp,
-    };
+    const user = decode(userToken) as WithId<UserDoc>;
 
     output.verified = true;
     output.setCookie = true;
@@ -117,21 +106,9 @@ async function createNewToken(uid: string): Promise<string | null> {
   let userToken = '';
 
   try {
-    const userDoc = await userDb.findOne({ _id: new ObjectId(uid) });
-    if (!userDoc) return null;
+    const user = await userDb.findOne({ _id: new ObjectId(uid) });
+    if (!user) return null;
 
-    const user: UserDoc = {
-      createdAt: userDoc.createdAt,
-      lastSignedIn: userDoc.lastSignedIn,
-      email: userDoc.email,
-      phone: userDoc.phone,
-      pass: userDoc.pass,
-      username: userDoc.username,
-      age: userDoc.age,
-      gender: userDoc.gender,
-      animal: userDoc.animal,
-      pfp: userDoc.pfp,
-    };
     userToken = sign(user, import.meta.env.JWT_PASS, { expiresIn: '10m' });
   } finally {
     mongo.close();

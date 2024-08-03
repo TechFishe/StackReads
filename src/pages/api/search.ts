@@ -5,7 +5,7 @@ import { MongoClient } from 'mongodb';
 export const POST: APIRoute = async ({ request }) => {
   const pass = import.meta.env.MONGO_DB_SEARCH_PASS;
 
-  const data = (await request.json()) as { title: string; author: string };
+  const data = (await request.json()) as SearchData;
 
   const mongo = new MongoClient(`mongodb+srv://search:${pass}@main.zc2oijy.mongodb.net/?retryWrites=true&w=majority&appName=Main`);
   const searchDb = mongo.db('Gen').collection<SearchDoc>('searches');
@@ -16,6 +16,7 @@ export const POST: APIRoute = async ({ request }) => {
       knownUser: false,
       title: data.title,
       author: data.author,
+      uid: data.uid,
     })
     .catch((err) => {
       console.error(err);

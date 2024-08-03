@@ -2,11 +2,22 @@
 import MainLayout from '@layouts/MainLayout';
 
 import SearchForm from '@vueBlocks/SearchForm';
+
+import { ObjectId } from 'mongodb';
+
+const response = await fetch(new URL('/api/auth/verifyUser/uid', Astro.url.origin));
+
+let uid: ObjectId | null = null;
+if (response.status === 200) {
+  uid = await response.json().then((data) => {
+    return new ObjectId(data.uid as string);
+  });
+}
 ---
 
 <MainLayout title="Search">
   <main id="bgArt" class="min-h-screen w-screen flex items-center justify-center pb-4 pt-24">
-    <SearchForm url={Astro.url.origin} client:only="vue" />
+    <SearchForm url={Astro.url.origin} uid={uid} client:only="vue" />
   </main>
 </MainLayout>
 

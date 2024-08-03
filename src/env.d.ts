@@ -2,7 +2,7 @@
 
 declare namespace App {
   interface Locals {
-    user: UserDoc;
+    user: WithId<UserDoc>;
   }
 }
 
@@ -23,11 +23,18 @@ interface ErrorInfo {
   text: string;
 }
 
+interface SearchData {
+  title: string;
+  author: string;
+  uid: string | null;
+}
+
 interface SearchDoc {
   timestamp: Date;
   knownUser: boolean;
   title: string;
   author: string;
+  uid: ObjectId | null;
 }
 
 interface SignUpData {

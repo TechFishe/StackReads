@@ -46,22 +46,7 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
     if (data.remember) refreshToken = sign({ uid: user._id }, import.meta.env.JWT_REFRESH_PASS, { expiresIn: '14d' });
     else refreshToken = sign({ uid: user._id }, import.meta.env.JWT_REFRESH_PASS, { expiresIn: '1d' });
 
-    const userToken = sign(
-      {
-        createdAt: user.createdAt,
-        lastSignedIn: user.lastSignedIn,
-        email: user.email,
-        phone: user.phone,
-        pass: user.pass,
-        username: user.username,
-        age: user.age,
-        gender: user.gender,
-        animal: user.animal,
-        pfp: user.pfp,
-      },
-      import.meta.env.JWT_PASS,
-      { expiresIn: '10m' }
-    );
+    const userToken = sign(user, import.meta.env.JWT_PASS, { expiresIn: '10m' });
     const options: AstroCookieSetOptions = {
       path: '/',
     };

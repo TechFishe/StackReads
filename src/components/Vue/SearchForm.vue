@@ -1,8 +1,10 @@
 <script setup lang="ts">
+  import { ObjectId } from 'mongodb';
   import { ref, type Ref } from 'vue';
 
   const props = defineProps<{
     url: string;
+    uid: ObjectId | null;
   }>();
 
   const title = ref('');
@@ -49,7 +51,8 @@
       body: JSON.stringify({
         title: title.value,
         author: author.value,
-      }),
+        uid: props.uid,
+      } as SearchData),
     });
 
     if (books.length === 0) {
