@@ -7,7 +7,8 @@
     "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "tidy": "prettier . --write"
   },
   "dependencies": {
     "@astrojs/check": "^0.7.0",
@@ -17,13 +18,16 @@
     "@fontsource-variable/playpen-sans": "^5.0.8",
     "@fontsource-variable/red-hat-mono": "^5.0.19",
     "astro": "^4.11.5",
-    "firebase": "^10.12.2",
-    "firebase-admin": "^12.1.1",
+    "bcrypt": "^5.1.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.8.0",
     "tailwindcss": "^3.4.4",
     "typescript": "^5.4.5",
     "vue": "^3.4.27"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.6",
     "prettier": "^3.3.2",
     "prettier-plugin-astro": "^0.14.0",
     "prettier-plugin-tailwindcss": "^0.6.4"

@@ -1,7 +1,9 @@
 # Rules
 
-1. All code that has the import call `import { app } from '@firebase/server'` MUST EITHER be an API route OR fully contained in the top of an Astro component
-2. Blocks that requires any JS/TS that would otherwise be in a `<script></script>` tag needs to be in a vue component
-3. Custom types will all be written in CamelCase: `interface ExampleType {}`
-4. Firestore document types will be denoted as the collection they are in followed by 'Doc': `interface UserDoc {}`
-5. **KEEP. IT. SIMPLE. STUPID.**
+1. Anything that requires any of the following must be contained in an API route:
+   - `import { MongoClient, ObjectId } from 'mongodb'`
+   - `import jwt from 'jsonwebtoken'`
+   - `import bcrypt from 'bcrypt'`
+2. Until we have a better solution, any route that needs to have middlware run before it will have its pathname added to the switch case contained in the index.ts file inside of the middlware folder
+3. Any part of the HTML that would otherwise require a javascript tag to run **MUST** be moved into a Vue component
+4. **KEEP. IT. SIMPLE. STUPID.**

@@ -1,60 +1,15 @@
 ---
 import MainLayout from '@layouts/MainLayout';
 
-import { app } from '@firebase/server';
-import { getAuth } from 'firebase-admin/auth';
-import { getFirestore, Timestamp } from 'firebase-admin/firestore';
-
-interface UserDoc {
-  age: number;
-  animal: string;
-  email: string;
-  gender: string;
-  joinedAt: Timestamp;
-  lastSignedIn: Timestamp;
-  pfp: string;
-  phone: string;
-  username: string;
-}
-
-let uid: string = '';
-let userDoc: UserDoc = {
-  age: -1,
-  animal: '',
-  email: '',
-  gender: '',
-  joinedAt: Timestamp.now(),
-  lastSignedIn: Timestamp.now(),
-  pfp: '',
-  phone: '',
-  username: '',
-};
-
-if (Astro.cookies.has('__session')) {
-  await getAuth(app)
-    .verifySessionCookie(Astro.cookies.get('__session')?.value as string)
-    .then((data) => {
-      uid = data.uid;
-    });
-}
-
-await getFirestore(app)
-  .collection('users')
-  .doc(uid)
-  .get()
-  .then((doc) => {
-    if (doc.exists) {
-      userDoc = doc.data() as UserDoc;
-    }
-  });
+const user = Astro.locals.user;
 ---
 
 <MainLayout title="User">
   <main class="min-h-screen w-screen flex-col items-center justify-center pb-4 pt-24">
     <section class="flex"></section>
-    <img src={userDoc.pfp} alt="Profile picture" />
+    <img src={user.pfp} alt="Profile picture" />
     <div class="flex-col">
-      <h1>{userDoc.username}</h1>
+      <h1>{user.username}</h1>
       <span></span>
     </div>
   </main>
