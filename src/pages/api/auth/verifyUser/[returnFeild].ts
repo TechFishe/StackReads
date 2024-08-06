@@ -9,7 +9,6 @@ export const GET: APIRoute = async ({ cookies, params }) => {
   const { returnFeild } = params;
 
   if (!cookies.has('refresh') || !cookies.has('user') || !returnFeild) {
-    console.log('hey');
     return new Response(null, {
       status: 400,
     });

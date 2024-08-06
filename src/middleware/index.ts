@@ -23,7 +23,6 @@ export const onRequest = defineMiddleware(async (context, next) => {
       const userResponse = await verifyUser(context.cookies.get('user')?.value, context.cookies.get('refresh')?.value);
       if (!userResponse.verified || !userResponse.user) return context.redirect('/signin');
       else if (userResponse.setCookie) {
-        console.log(userResponse.user);
         const userToken = sign(userResponse.user, import.meta.env.JWT_PASS, { expiresIn: '10m' });
         context.cookies.set('user', userToken, { path: '/' });
       }
