@@ -1,10 +1,8 @@
 <script setup lang="ts">
-  import { ObjectId } from 'mongodb';
   import { ref, type Ref } from 'vue';
 
   const props = defineProps<{
     url: string;
-    uid: ObjectId | null;
   }>();
 
   const title = ref('');
@@ -46,12 +44,21 @@
       return [];
     }
 
+    const response = await fetch('/api/auth/verifyUser/uid');
+
+    let uid: string | null = null;
+    if (response.status === 200) {
+      uid = await response.json().then((data) => {
+        return data.uid as string;
+      });
+    }
+
     await fetch('/api/search', {
       method: 'POST',
       body: JSON.stringify({
         title: title.value,
         author: author.value,
-        uid: props.uid,
+        uid: uid,
       } as SearchData),
     });
 

@@ -1,6 +1,6 @@
 import type { APIRoute, AstroCookieSetOptions } from 'astro';
 
-import { MongoClient, ObjectId, type Filter } from 'mongodb';
+import { MongoClient, type Filter } from 'mongodb';
 import { compare } from 'bcrypt';
 import jwt from 'jsonwebtoken';
 

@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 
 export const POST: APIRoute = async ({ request }) => {
   const pass = import.meta.env.MONGO_DB_SEARCH_PASS;
@@ -10,13 +10,16 @@ export const POST: APIRoute = async ({ request }) => {
   const mongo = new MongoClient(`mongodb+srv://search:${pass}@main.zc2oijy.mongodb.net/?retryWrites=true&w=majority&appName=Main`);
   const searchDb = mongo.db('Gen').collection<SearchDoc>('searches');
 
+  let uid: ObjectId | null = null;
+  if (data.uid) uid = new ObjectId(data.uid);
+
   await searchDb
     .insertOne({
       timestamp: new Date(),
       knownUser: false,
       title: data.title,
       author: data.author,
-      uid: data.uid,
+      uid: uid,
     })
     .catch((err) => {
       console.error(err);

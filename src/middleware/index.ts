@@ -23,7 +23,9 @@ export const onRequest = defineMiddleware(async (context, next) => {
       const userResponse = await verifyUser(context.cookies.get('user')?.value, context.cookies.get('refresh')?.value);
       if (!userResponse.verified || !userResponse.user) return context.redirect('/signin');
       else if (userResponse.setCookie) {
-        context.cookies.set('user', userResponse.user, { path: '/' });
+        console.log(userResponse.user);
+        const userToken = sign(userResponse.user, import.meta.env.JWT_PASS, { expiresIn: '10m' });
+        context.cookies.set('user', userToken, { path: '/' });
       }
 
       context.locals.user = userResponse.user;
@@ -35,7 +37,8 @@ export const onRequest = defineMiddleware(async (context, next) => {
       const searchResponse = await verifyUser(context.cookies.get('user')?.value, context.cookies.get('refresh')?.value);
       if (!searchResponse.verified || !searchResponse.user) return next();
       else if (searchResponse.setCookie) {
-        context.cookies.set('user', searchResponse.user, { path: '/' });
+        const userToken = sign(searchResponse.user, import.meta.env.JWT_PASS, { expiresIn: '10m' });
+        context.cookies.set('user', userToken, { path: '/' });
       }
 
       context.locals.user = searchResponse.user;
@@ -57,20 +60,20 @@ async function verifyUser(userJwt?: string, refreshJwt?: string): Promise<Verify
   //@ts-expect-error
   const verified = verify(userJwt, import.meta.env.JWT_PASS, (err, user: WithId<UserDoc>) => {
     if (err) return null;
-    else
-      return {
-        _id: user._id,
-        createdAt: user.createdAt,
-        lastSignedIn: user.lastSignedIn,
-        email: user.email,
-        phone: user.phone,
-        pass: user.pass,
-        username: user.username,
-        age: user.age,
-        gender: user.gender,
-        animal: user.animal,
-        pfp: user.pfp,
-      } as WithId<UserDoc>;
+
+    return {
+      _id: user._id,
+      createdAt: user.createdAt,
+      lastSignedIn: user.lastSignedIn,
+      email: user.email,
+      phone: user.phone,
+      pass: user.pass,
+      username: user.username,
+      age: user.age,
+      gender: user.gender,
+      animal: user.animal,
+      pfp: user.pfp,
+    } as WithId<UserDoc>;
   });
 
   if (!verified) {
@@ -84,7 +87,20 @@ async function verifyUser(userJwt?: string, refreshJwt?: string): Promise<Verify
 
     if (!userToken) return output;
 
-    const user = decode(userToken) as WithId<UserDoc>;
+    const tempUser = decode(userToken) as WithId<UserDoc>;
+    const user: WithId<UserDoc> = {
+      _id: tempUser._id,
+      createdAt: tempUser.createdAt,
+      lastSignedIn: tempUser.lastSignedIn,
+      email: tempUser.email,
+      phone: tempUser.phone,
+      pass: tempUser.pass,
+      username: tempUser.username,
+      age: tempUser.age,
+      gender: tempUser.gender,
+      animal: tempUser.animal,
+      pfp: tempUser.pfp,
+    };
 
     output.verified = true;
     output.setCookie = true;

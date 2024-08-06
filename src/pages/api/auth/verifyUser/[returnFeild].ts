@@ -5,13 +5,15 @@ const { verify, decode } = jwt;
 
 type ReturnFeilds = 'uid' | 'pfp' | 'all';
 
-export const GET: APIRoute = async ({ request, cookies, params }) => {
+export const GET: APIRoute = async ({ cookies, params }) => {
   const { returnFeild } = params;
 
-  if (!cookies.has('refresh') || !cookies.has('user') || !returnFeild)
+  if (!cookies.has('refresh') || !cookies.has('user') || !returnFeild) {
+    console.log('hey');
     return new Response(null, {
       status: 400,
     });
+  }
 
   const pass = import.meta.env.JWT_REFRESH_PASS;
   //@ts-expect-error
