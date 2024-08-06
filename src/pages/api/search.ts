@@ -11,12 +11,16 @@ export const POST: APIRoute = async ({ request }) => {
   const searchDb = mongo.db('Gen').collection<SearchDoc>('searches');
 
   let uid: ObjectId | null = null;
-  if (data.uid) uid = new ObjectId(data.uid);
+  let knownUser = false;
+  if (data.uid) {
+    knownUser = true;
+    uid = new ObjectId(data.uid);
+  }
 
   await searchDb
     .insertOne({
       timestamp: new Date(),
-      knownUser: false,
+      knownUser: knownUser,
       title: data.title,
       author: data.author,
       uid: uid,
