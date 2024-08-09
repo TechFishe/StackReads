@@ -12,7 +12,7 @@ interface RefreshResponse {
 interface VerifyResponse {
   verified: boolean;
   setCookie: boolean;
-  user?: WithId<UserDoc>;
+  user?: WithId<PublicUserDoc>;
 }
 
 export const onRequest = defineMiddleware(async (context, next) => {
@@ -57,22 +57,18 @@ async function verifyUser(userJwt?: string, refreshJwt?: string): Promise<Verify
   if (!userJwt || !refreshJwt) return output;
 
   //@ts-expect-error
-  const verified = verify(userJwt, import.meta.env.JWT_PASS, (err, user: WithId<UserDoc>) => {
+  const verified = verify(userJwt, import.meta.env.JWT_PASS, (err, user: WithId<PublicUserDoc>) => {
     if (err) return null;
 
     return {
       _id: user._id,
       createdAt: user.createdAt,
-      lastSignedIn: user.lastSignedIn,
-      email: user.email,
-      phone: user.phone,
-      pass: user.pass,
       username: user.username,
       age: user.age,
       gender: user.gender,
       animal: user.animal,
       pfp: user.pfp,
-    } as WithId<UserDoc>;
+    } as WithId<PrivateUserDoc>;
   });
 
   if (!verified) {
@@ -86,14 +82,10 @@ async function verifyUser(userJwt?: string, refreshJwt?: string): Promise<Verify
 
     if (!userToken) return output;
 
-    const tempUser = decode(userToken) as WithId<UserDoc>;
-    const user: WithId<UserDoc> = {
+    const tempUser = decode(userToken) as WithId<PublicUserDoc>;
+    const user: WithId<PublicUserDoc> = {
       _id: tempUser._id,
       createdAt: tempUser.createdAt,
-      lastSignedIn: tempUser.lastSignedIn,
-      email: tempUser.email,
-      phone: tempUser.phone,
-      pass: tempUser.pass,
       username: tempUser.username,
       age: tempUser.age,
       gender: tempUser.gender,
@@ -116,13 +108,23 @@ async function verifyUser(userJwt?: string, refreshJwt?: string): Promise<Verify
 async function createNewToken(uid: string): Promise<string | null> {
   const pass = import.meta.env.MONGO_DB_SIGNIN_PASS;
   const mongo = new MongoClient(`mongodb+srv://signin:${pass}@main.zc2oijy.mongodb.net/?retryWrites=true&w=majority&appName=Main`);
-  const userDb = mongo.db('Gen').collection<UserDoc>('users');
+  const userDb = mongo.db('Private').collection<PrivateUserDoc>('users');
 
   let userToken = '';
 
   try {
-    const user = await userDb.findOne({ _id: new ObjectId(uid) });
-    if (!user) return null;
+    const tempUser = await userDb.findOne({ _id: new ObjectId(uid) });
+    if (!tempUser) return null;
+
+    const user: WithId<PublicUserDoc> = {
+      _id: tempUser._id,
+      createdAt: tempUser.createdAt,
+      username: tempUser.username,
+      age: tempUser.age,
+      gender: tempUser.gender,
+      animal: tempUser.animal,
+      pfp: tempUser.pfp,
+    };
 
     userToken = sign(user, import.meta.env.JWT_PASS, { expiresIn: '10m' });
   } finally {

@@ -2,7 +2,7 @@
 
 declare namespace App {
   interface Locals {
-    user: WithId<UserDoc>;
+    user: WithId<PublicUserDoc>;
   }
 }
 
@@ -60,12 +60,8 @@ interface SignInData {
   remember: boolean;
 }
 
-interface UserDoc {
+interface PublicUserDoc {
   createdAt: Date;
-  lastSignedIn: Date | null;
-  email: string;
-  phone: string;
-  pass: string;
   username: string;
   age: number;
   gender: string;
@@ -77,4 +73,11 @@ interface UserDoc {
     mouthNum: number;
     bgColor: string;
   };
+}
+
+interface PrivateUserDoc extends PublicUserDoc {
+  lastSignedIn: Date | null;
+  email: string;
+  phone: string;
+  pass: string;
 }

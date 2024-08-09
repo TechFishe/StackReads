@@ -1,6 +1,6 @@
 import type { APIRoute, AstroCookieSetOptions } from 'astro';
 
-import { MongoClient, type Filter } from 'mongodb';
+import { MongoClient, type Filter, type WithId } from 'mongodb';
 import { compare } from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -12,10 +12,10 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   const data = (await request.json()) as SignInData;
 
   const mongo = new MongoClient(`mongodb+srv://signin:${pass}@main.zc2oijy.mongodb.net/?retryWrites=true&w=majority&appName=Main`);
-  const userDb = mongo.db('Private').collection<UserDoc>('users');
+  const userDb = mongo.db('Private').collection<PrivateUserDoc>('users');
 
   try {
-    const duplicateQuery: Filter<UserDoc> = {
+    const duplicateQuery: Filter<PrivateUserDoc> = {
       email: data.email,
     };
 
@@ -46,7 +46,17 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
     if (data.remember) refreshToken = sign({ uid: user._id }, import.meta.env.JWT_REFRESH_PASS, { expiresIn: '14d' });
     else refreshToken = sign({ uid: user._id }, import.meta.env.JWT_REFRESH_PASS, { expiresIn: '1d' });
 
-    const userToken = sign(user, import.meta.env.JWT_PASS, { expiresIn: '10m' });
+    const publicUser: WithId<PublicUserDoc> = {
+      _id: user._id,
+      createdAt: user.createdAt,
+      username: user.username,
+      age: user.age,
+      gender: user.gender,
+      animal: user.animal,
+      pfp: user.pfp,
+    };
+
+    const userToken = sign(publicUser, import.meta.env.JWT_PASS, { expiresIn: '10m' });
     const options: AstroCookieSetOptions = {
       path: '/',
     };
