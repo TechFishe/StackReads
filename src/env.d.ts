@@ -45,7 +45,13 @@ interface SignUpData {
   age: number;
   gender: string;
   animal: string;
-  pfp: string;
+  pfp: {
+    uri: string;
+    eyebrowNum: number;
+    eyeNum: number;
+    mouthNum: number;
+    bgColor: string;
+  };
 }
 
 interface SignInData {
@@ -64,5 +70,11 @@ interface UserDoc {
   age: number;
   gender: string;
   animal: string;
-  pfp: string;
+  pfp: {
+    uri: string;
+    eyebrowNum: number;
+    eyeNum: number;
+    mouthNum: number;
+    bgColor: string;
+  };
 }

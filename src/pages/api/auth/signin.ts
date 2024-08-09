@@ -12,7 +12,7 @@ export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   const data = (await request.json()) as SignInData;
 
   const mongo = new MongoClient(`mongodb+srv://signin:${pass}@main.zc2oijy.mongodb.net/?retryWrites=true&w=majority&appName=Main`);
-  const userDb = mongo.db('Gen').collection<UserDoc>('users');
+  const userDb = mongo.db('Private').collection<UserDoc>('users');
 
   try {
     const duplicateQuery: Filter<UserDoc> = {

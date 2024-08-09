@@ -9,7 +9,7 @@
   const passTwo = ref('');
   const username = ref('');
   const age = ref('');
-  const gender = ref('');
+  const gender = ref('Gender');
   const animal = ref('');
   const pfp = ref('https://api.dicebear.com/9.x/adventurer-neutral/svg?size=64&glassesProbability=0');
   const color = ref((((1 << 24) * Math.random()) | 0).toString(16).padStart(6, '0'));
@@ -48,7 +48,7 @@
   function checkScreenTwo() {
     error.value = '';
 
-    if (username.value === '' || age.value === '' || gender.value === '' || animal.value === '') {
+    if (username.value === '' || age.value === '' || gender.value === 'Gender' || animal.value === '') {
       error.value = 'Missing form data';
       return;
     }
@@ -126,7 +126,13 @@
         age: parseInt(age.value),
         gender: gender.value,
         animal: animal.value,
-        pfp: pfp.value,
+        pfp: {
+          uri: pfp.value,
+          eyebrowNum: eyebrows.value,
+          eyeNum: eyes.value,
+          mouthNum: mouth.value,
+          bgColor: color.value,
+        },
       } as SignUpData),
     });
 
@@ -144,7 +150,7 @@
 
 <template>
   <div class="flex w-5/6 items-center justify-center">
-    <article class="flex w-full flex-col items-center justify-center space-y-4 rounded-md bg-Woodsmoke-900/60 px-4 py-1 md:w-3/4 lg:w-2/3 xl:w-1/2 2xl:w-5/12">
+    <article class="flex w-full flex-col items-center justify-center space-y-4 rounded-md bg-Woodsmoke-900/60 px-4 py-1 md:w-3/4 lg:w-2/3 xl:w-1/2">
       <h1 class="w-full border-b border-b-SpringWood-50/25 pb-1 text-center font-Playpen text-5xl font-light">Sign up</h1>
       <form @submit.prevent="signUp" method="post" class="flex w-full flex-col items-center justify-center space-y-4 pb-1">
         <section v-if="screen === 0" class="flex w-full flex-col items-center space-y-4 px-4 md:grid md:grid-cols-2 md:grid-rows-2 md:gap-4 md:space-y-0 lg:px-8">
@@ -156,27 +162,34 @@
         <section v-if="screen === 1" class="flex w-full flex-col items-center space-y-4 px-4 md:grid md:grid-flow-row md:grid-cols-2 md:gap-4 md:space-y-0 lg:px-8">
           <input v-model="username" type="text" name="username" id="username" placeholder="Username" autocomplete="username" class="w-full rounded-md bg-Woodsmoke-900/80 px-2 py-0.5 text-lg outline-0 placeholder:text-base placeholder:italic" />
           <input v-model="age" type="number" name="age" id="age" placeholder="Age" autocomplete="off" class="w-full rounded-md bg-Woodsmoke-900/80 px-2 py-0.5 text-lg outline-0 placeholder:text-base placeholder:italic" />
-          <input v-model="gender" type="text" name="gender" id="gender" placeholder="Gender" autocomplete="sex" class="w-full rounded-md bg-Woodsmoke-900/80 px-2 py-0.5 text-lg outline-0 placeholder:text-base placeholder:italic" />
+          <select v-model="gender" @change="() => console.log(gender)" name="gender" id="gender" class="w-full rounded-md border-none bg-Woodsmoke-900/80 px-2 py-0.5 text-lg outline-0">
+            <option selected hidden>Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Nonbinary">Nonbinary</option>
+            <option value="Prefer not to say">Prefer not to say</option>
+          </select>
           <input v-model="animal" type="text" name="animal" id="animal" placeholder="Favorite animal" autocomplete="off" class="w-full rounded-md bg-Woodsmoke-900/80 px-2 py-0.5 text-lg outline-0 placeholder:text-base placeholder:italic" />
         </section>
         <section v-if="screen === 2" class="flex w-full flex-col items-center space-y-4 px-4 md:grid md:grid-cols-2 md:grid-rows-5 md:gap-4 md:space-y-0 lg:px-8">
-          <img :src="pfp" alt="Preview pfp" class="h-24 w-24 rounded-lg subpixel-antialiased md:col-span-1 md:row-span-5 md:h-full md:w-full" />
+          <img :src="pfp" alt="Preview pfp" class="h-24 w-24 rounded-lg subpixel-antialiased md:col-span-1 md:row-span-5 md:h-full md:w-5/6" />
           <div class="flex w-full items-center justify-between justify-self-center">
             <button @click="cycleEyebrows('left')" type="button" class="rounded-md border px-4 py-1 text-xl shadow-md shadow-transparent transition-all ease-out hover:border-MonteCarlo-500 hover:text-MonteCarlo-500 hover:shadow-MonteCarlo-300/30"><i class="fa-light fa-chevron-left" /></button>
-            <span class="text-lg">Eyebrows ({{ eyebrows }})</span>
+            <span class="text-lg">Eyebrows ({{ eyebrows }}/15)</span>
             <button @click="cycleEyebrows('right')" type="button" class="rounded-md border px-4 py-1 text-xl shadow-md shadow-transparent transition-all ease-out hover:border-MonteCarlo-500 hover:text-MonteCarlo-500 hover:shadow-MonteCarlo-300/30"><i class="fa-light fa-chevron-right" /></button>
           </div>
           <div class="flex w-full items-center justify-between justify-self-center">
             <button @click="cycleEyes('left')" type="button" class="rounded-md border px-4 py-1 text-xl shadow-md shadow-transparent transition-all ease-out hover:border-MonteCarlo-500 hover:text-MonteCarlo-500 hover:shadow-MonteCarlo-300/30"><i class="fa-light fa-chevron-left" /></button>
-            <span class="text-lg">Eyes ({{ eyes }})</span>
+            <span class="text-lg">Eyes ({{ eyes }}/26)</span>
             <button @click="cycleEyes('right')" type="button" class="rounded-md border px-4 py-1 text-xl shadow-md shadow-transparent transition-all ease-out hover:border-MonteCarlo-500 hover:text-MonteCarlo-500 hover:shadow-MonteCarlo-300/30"><i class="fa-light fa-chevron-right" /></button>
           </div>
           <div class="flex w-full items-center justify-between justify-self-center">
             <button @click="cycleMouth('left')" type="button" class="rounded-md border px-4 py-1 text-xl shadow-md shadow-transparent transition-all ease-out hover:border-MonteCarlo-500 hover:text-MonteCarlo-500 hover:shadow-MonteCarlo-300/30"><i class="fa-light fa-chevron-left" /></button>
-            <span class="text-lg">Mouth ({{ mouth }})</span>
+            <span class="text-lg">Mouth ({{ mouth }}/30)</span>
             <button @click="cycleMouth('right')" type="button" class="rounded-md border px-4 py-1 text-xl shadow-md shadow-transparent transition-all ease-out hover:border-MonteCarlo-500 hover:text-MonteCarlo-500 hover:shadow-MonteCarlo-300/30"><i class="fa-light fa-chevron-right" /></button>
           </div>
           <div class="flex w-full items-center space-x-2 justify-self-center">
+            <span class="rounded-md border px-4 py-1 text-xl">Hex</span>
             <input v-model="color" @input="setPfp" type="text" name="color" id="color" placeholder="Background color" autocomplete="off" class="w-full rounded-md bg-Woodsmoke-900/80 px-2 py-0.5 text-lg outline-0 placeholder:text-base placeholder:italic" />
             <a href="https://nekocolor.com/" target="_blank" rel="noopener noreferrer" class="rounded-md border px-4 py-1 text-xl shadow-md shadow-transparent transition-all ease-out hover:border-MonteCarlo-500 hover:text-MonteCarlo-500 hover:shadow-MonteCarlo-300/30"><i class="fa-light fa-eye-dropper" /></a>
           </div>

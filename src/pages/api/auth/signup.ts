@@ -9,7 +9,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
   const data = (await request.json()) as SignUpData;
 
   const mongo = new MongoClient(`mongodb+srv://signin:${pass}@main.zc2oijy.mongodb.net/?retryWrites=false&w=majority&appName=Main`);
-  const userDb = mongo.db('Gen').collection<UserDoc>('users');
+  const userDb = mongo.db('Private').collection<UserDoc>('users');
 
   try {
     let newUser: UserDoc = {

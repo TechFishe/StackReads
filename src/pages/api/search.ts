@@ -8,7 +8,7 @@ export const POST: APIRoute = async ({ request }) => {
   const data = (await request.json()) as SearchData;
 
   const mongo = new MongoClient(`mongodb+srv://search:${pass}@main.zc2oijy.mongodb.net/?retryWrites=true&w=majority&appName=Main`);
-  const searchDb = mongo.db('Gen').collection<SearchDoc>('searches');
+  const searchDb = mongo.db('Private').collection<SearchDoc>('searches');
 
   let uid: ObjectId | null = null;
   let knownUser = false;
