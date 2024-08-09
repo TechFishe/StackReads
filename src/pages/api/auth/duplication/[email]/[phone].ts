@@ -6,9 +6,9 @@ export const GET: APIRoute = async ({ params }) => {
 
   const pass = import.meta.env.MONGO_DB_SIGNIN_PASS;
   const mongo = new MongoClient(`mongodb+srv://signin:${pass}@main.zc2oijy.mongodb.net/?retryWrites=false&w=majority&appName=Main`);
-  const userDb = mongo.db('Private').collection<UserDoc>('users');
+  const userDb = mongo.db('Private').collection<PrivateUserDoc>('users');
 
-  const duplicateQuery: Filter<UserDoc> = {
+  const duplicateQuery: Filter<PrivateUserDoc> = {
     $or: [{ email: email }, { phone: phone }],
   };
   await userDb
