@@ -3,6 +3,7 @@ import MainLayout from '@layouts/MainLayout';
 
 const request = await fetch(`https://www.googleapis.com/books/v1/volumes/${Astro.params.id}`);
 const book: any = await request.json();
+console.log(book);
 ---
 
 <MainLayout title={book.volumeInfo.title}>

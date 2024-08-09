@@ -3,11 +3,11 @@ import type { APIRoute } from 'astro';
 import { MongoClient, ObjectId } from 'mongodb';
 
 export const POST: APIRoute = async ({ request }) => {
-  const pass = import.meta.env.MONGO_DB_SEARCH_PASS;
+  const pass = import.meta.env.MONGO_DB_GENERAL_PASS;
 
   const data = (await request.json()) as SearchData;
 
-  const mongo = new MongoClient(`mongodb+srv://search:${pass}@main.zc2oijy.mongodb.net/?retryWrites=true&w=majority&appName=Main`);
+  const mongo = new MongoClient(`mongodb+srv://general:${pass}@main.zc2oijy.mongodb.net/?retryWrites=true&w=majority&appName=Main`);
   const searchDb = mongo.db('Private').collection<SearchDoc>('searches');
 
   let uid: ObjectId | null = null;
@@ -34,7 +34,7 @@ export const POST: APIRoute = async ({ request }) => {
   mongo.close();
 
   return new Response(null, {
-    status: 200,
-    statusText: 'Ok',
+    status: 201,
+    statusText: 'Created',
   });
 };

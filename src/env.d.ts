@@ -9,7 +9,7 @@ declare namespace App {
 interface ImportMetaEnv {
   readonly PUBLIC_BOOK_API: string;
   readonly MONGO_DB_ADMIN_PASS: string;
-  readonly MONGO_DB_SEARCH_PASS: string;
+  readonly MONGO_DB_GENERAL_PASS: string;
   readonly MONGO_DB_SIGNIN_PASS: string;
   readonly JWT_PASS: string;
   readonly JWT_REFRESH_PASS: string;
