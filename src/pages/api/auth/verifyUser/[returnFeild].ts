@@ -29,7 +29,7 @@ export const GET: APIRoute = async ({ cookies, params }) => {
     });
 
   //@ts-expect-error
-  const user = decode(cookies.get('user')?.value) as WithId<UserDoc>;
+  const user = decode(cookies.get('user')?.value) as WithId<PublicUserDoc>;
 
   if (uid !== user._id)
     return new Response(null, {

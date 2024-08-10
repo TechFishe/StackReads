@@ -6,21 +6,21 @@ import { parse } from 'node-html-parser';
 const request = await fetch(`https://www.googleapis.com/books/v1/volumes/${Astro.params.id}`);
 const book: any = await request.json();
 let releaseDate: string[] = [];
-let genres: string[] = [];
+// let genres: string[] = [];
 
-book.volumeInfo.categories.forEach((item: string) => {
-  const genreList = item.split('/');
-  genreList.forEach((subItem) => {
-    const exists = genres.includes(subItem);
-    if (exists) return;
+// book.volumeInfo.categories.forEach((item: string) => {
+//   const genreList = item.split('/');
+//   genreList.forEach((subItem) => {
+//     const exists = genres.includes(subItem);
+//     if (exists) return;
 
-    genres.push(subItem);
-  });
-});
+//     genres.push(subItem);
+//   });
+// });
 
-while (genres.length > 5) {
-  genres.pop();
-}
+// while (genres.length > 5) {
+//   genres.pop();
+// }
 
 const tempDate: string = book.volumeInfo.publishedDate;
 const arrayDate = tempDate.split('-');
@@ -60,7 +60,7 @@ switch (arrayDate[1]) {
     <div class="flex w-full h-fit space-x-2 px-4">
       <img src={book.volumeInfo.imageLinks.thumbnail} alt="Book cover" class="rounded-sm h-60" />
       <section class="flex flex-col">
-        <h1 class="text-5xl font-medium tracking-tight pb-3">{book.volumeInfo.title}</h1>
+        <h1 class="md:text-5xl text-2xl font-medium tracking-tight pb-3">{book.volumeInfo.title}</h1>
         <section class="flex flex-col w-fit py-1 border-t-2 border-t-SpringWood-50/35 pr-8">
           <div class="space-x-2 flex w-fit">
             <span class="text-xl tracking-tighter text-MonteCarlo-300">By:</span>
@@ -70,12 +70,12 @@ switch (arrayDate[1]) {
             <span class="text-xl tracking-tighter text-MonteCarlo-300">Released on:</span>
             <span class="text-lg tracking-tighter italic font-Playpen">{releaseDate[0]} {releaseDate[1]}, {releaseDate[2]}</span>
           </div>
-          <div class="space-x-2 flex w-fit">
+          <!-- <div class="space-x-2 flex w-fit">
             <span class="text-xl tracking-tighter text-MonteCarlo-300">Genres:</span>
             <ul class="text-lg flex tracking-tighter space-x-1 italic font-Playpen">
               {genres.map((genre) => <li>{genre.trim()},</li>)}
             </ul>
-          </div>
+          </div> -->
         </section>
       </section>
     </div>
