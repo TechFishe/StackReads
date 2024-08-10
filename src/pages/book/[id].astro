@@ -1,0 +1,91 @@
+---
+import MainLayout from '@layouts/MainLayout';
+
+import { parse } from 'node-html-parser';
+
+const request = await fetch(`https://www.googleapis.com/books/v1/volumes/${Astro.params.id}`);
+const book: any = await request.json();
+let releaseDate: string[] = [];
+let genres: string[] = [];
+
+book.volumeInfo.categories.forEach((item: string) => {
+  const genreList = item.split('/');
+  genreList.forEach((subItem) => {
+    const exists = genres.includes(subItem);
+    if (exists) return;
+
+    genres.push(subItem);
+  });
+});
+
+while (genres.length > 5) {
+  genres.pop();
+}
+
+const tempDate: string = book.volumeInfo.publishedDate;
+const arrayDate = tempDate.split('-');
+
+releaseDate[1] = arrayDate[2];
+releaseDate[2] = arrayDate[0];
+switch (arrayDate[1]) {
+  case '1':
+    releaseDate[0] = 'Jan.';
+  case '2':
+    releaseDate[0] = 'Feb.';
+  case '3':
+    releaseDate[0] = 'Mar.';
+  case '4':
+    releaseDate[0] = 'Apr.';
+  case '5':
+    releaseDate[0] = 'May.';
+  case '6':
+    releaseDate[0] = 'Jun.';
+  case '7':
+    releaseDate[0] = 'Jul.';
+  case '8':
+    releaseDate[0] = 'Aug.';
+  case '9':
+    releaseDate[0] = 'Sep.';
+  case '10':
+    releaseDate[0] = 'Oct.';
+  case '11':
+    releaseDate[0] = 'Nov.';
+  case '12':
+    releaseDate[0] = 'Dec.';
+}
+---
+
+<MainLayout title={book.volumeInfo.title}>
+  <main class="pt-[5.5rem] flex-col min-h-screen w-screen flexpb-2">
+    <div class="flex w-full h-fit space-x-2 px-4">
+      <img src={book.volumeInfo.imageLinks.thumbnail} alt="Book cover" class="rounded-sm h-60" />
+      <section class="flex flex-col">
+        <h1 class="text-5xl font-medium tracking-tight pb-3">{book.volumeInfo.title}</h1>
+        <section class="flex flex-col w-fit py-1 border-t-2 border-t-SpringWood-50/35 pr-8">
+          <div class="space-x-2 flex w-fit">
+            <span class="text-xl tracking-tighter text-MonteCarlo-300">By:</span>
+            <span class="text-lg tracking-tighter italic font-Playpen">{book.volumeInfo.authors}</span>
+          </div>
+          <div class="space-x-2 flex w-fit">
+            <span class="text-xl tracking-tighter text-MonteCarlo-300">Released on:</span>
+            <span class="text-lg tracking-tighter italic font-Playpen">{releaseDate[0]} {releaseDate[1]}, {releaseDate[2]}</span>
+          </div>
+          <div class="space-x-2 flex w-fit">
+            <span class="text-xl tracking-tighter text-MonteCarlo-300">Genres:</span>
+            <ul class="text-lg flex tracking-tighter space-x-1 italic font-Playpen">
+              {genres.map((genre) => <li>{genre.trim()},</li>)}
+            </ul>
+          </div>
+        </section>
+      </section>
+    </div>
+    <section id="ambientBg" class="py-4 px-4">{parse(book.volumeInfo.description)}</section>
+  </main>
+</MainLayout>
+
+<style>
+  #ambientBg {
+    background-color: #09090b;
+    background-image: linear-gradient(to top, rgba(9, 9, 11, 1) 0%, rgba(9, 9, 11, 0.1) 10%, rgba(9, 9, 11, 0.1) 90%, rgba(9, 9, 11, 1) 100%), url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%238bd7d2' fill-opacity='0.075'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+</style>
