@@ -4,12 +4,12 @@
 
   const user: Ref<WithId<PublicUserDoc> | null> = ref(null);
 
-  onMounted(async () => {
-    const response = await fetch('/api/auth/verifyUser/all');
-    if (response.status !== 200) return;
+  // onMounted(async () => {
+  //   const response = await fetch('/api/auth/verifyUser/all');
+  //   if (response.status !== 200) return;
 
-    user.value = await response.json();
-  });
+  //   user.value = await response.json();
+  // });
 </script>
 
 <template>

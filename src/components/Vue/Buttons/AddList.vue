@@ -30,6 +30,7 @@
     }
 
     modal.value?.close();
+    window.location.reload();
   }
 </script>
 

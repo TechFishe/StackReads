@@ -66,7 +66,7 @@
       error.value = 'No books found for that search';
       return [];
     }
-    while (books.length > 10) {
+    while (books.length > 8) {
       books.pop();
     }
 
@@ -90,10 +90,10 @@
       </article>
     </div>
     <article v-if="currBooks.length !== 0" class="mt-8 w-11/12">
-      <ul class="grid w-full grid-cols-2 grid-rows-5 items-end justify-evenly justify-items-center space-y-6 md:grid-cols-5 md:grid-rows-2 2xl:grid-cols-10 2xl:grid-rows-1 2xl:space-y-0">
-        <li v-for="book in currBooks" class="group h-52 bg-Woodsmoke-950 shadow-lg shadow-transparent transition-all ease-out hover:scale-105 hover:opacity-80 hover:shadow-MonteCarlo-300/40">
+      <ul class="grid w-full grid-cols-2 grid-rows-5 items-end justify-evenly justify-items-center space-y-6 md:grid-cols-5 md:grid-rows-2 2xl:grid-cols-8 2xl:grid-rows-1 2xl:space-y-0">
+        <li v-for="book in currBooks" class="group h-72 w-48 bg-Woodsmoke-950 shadow-lg shadow-transparent transition-all ease-out hover:scale-105 hover:opacity-80 hover:shadow-MonteCarlo-300/40">
           <a :href="props.url + `/book/${book.id}`" class="transition-opacity ease-out group-hover:opacity-90">
-            <img :src="book.volumeInfo.imageLinks.thumbnail" alt="Book cover" class="h-full rounded-sm" />
+            <img :src="book.volumeInfo.imageLinks.thumbnail" alt="Book cover" class="h-full w-full rounded-sm" />
           </a>
         </li>
       </ul>

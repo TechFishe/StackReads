@@ -31,23 +31,23 @@ const arrayDate = tempDate.split('-');
 releaseDate[1] = parseInt(arrayDate[2]).toString();
 releaseDate[2] = arrayDate[0];
 switch (arrayDate[1]) {
-  case '1':
+  case '01':
     releaseDate[0] = 'Jan.';
-  case '2':
+  case '02':
     releaseDate[0] = 'Feb.';
-  case '3':
+  case '03':
     releaseDate[0] = 'Mar.';
-  case '4':
+  case '04':
     releaseDate[0] = 'Apr.';
-  case '5':
+  case '05':
     releaseDate[0] = 'May.';
-  case '6':
+  case '06':
     releaseDate[0] = 'Jun.';
-  case '7':
+  case '07':
     releaseDate[0] = 'Jul.';
-  case '8':
+  case '08':
     releaseDate[0] = 'Aug.';
-  case '9':
+  case '09':
     releaseDate[0] = 'Sep.';
   case '10':
     releaseDate[0] = 'Oct.';
@@ -61,7 +61,7 @@ switch (arrayDate[1]) {
 <MainLayout title={book.volumeInfo.title}>
   <main class="pt-[5.5rem] flex-col min-h-screen w-screen flexpb-2">
     <div class="flex w-full h-fit space-x-2 px-4">
-      <img src={book.volumeInfo.imageLinks.thumbnail} alt="Book cover" class="rounded-sm h-60" />
+      <img src={book.volumeInfo.imageLinks.thumbnail} alt="Book cover" class="rounded-sm h-72 w-48" />
       <section class="flex flex-col">
         <h1 class="md:text-5xl text-2xl font-medium tracking-tight pb-3">{book.volumeInfo.title}</h1>
         <section class="flex flex-col w-fit py-1 border-t-2 border-t-SpringWood-50/35 pr-8 h-full">
