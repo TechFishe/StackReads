@@ -11,32 +11,18 @@ export const GET: APIRoute = async ({ params }) => {
   const duplicateQuery: Filter<PrivateUserDoc> = {
     $or: [{ email: email }, { phone: phone }],
   };
-  await userDb
-    .find(duplicateQuery)
-    .toArray()
-    .then(async (data) => {
-      if (data.length !== 0) {
-        return new Response(
-          JSON.stringify({
-            text: 'Email/phone already in use',
-          } as ErrorInfo),
-          {
-            status: 409,
-          }
-        );
+  const matches = await userDb.find(duplicateQuery).toArray();
+
+  if (matches.length !== 0) {
+    return new Response(
+      JSON.stringify({
+        text: 'Email/phone already in use',
+      } as ErrorInfo),
+      {
+        status: 409,
       }
-    })
-    .catch(async (err) => {
-      console.error(err);
-      return new Response(
-        JSON.stringify({
-          text: 'Internal server error',
-        } as ErrorInfo),
-        {
-          status: 500,
-        }
-      );
-    });
+    );
+  }
 
   return new Response(null, {
     status: 200,

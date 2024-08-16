@@ -2,7 +2,7 @@
 
 declare namespace App {
   interface Locals {
-    user: WithId<PublicUserDoc>;
+    user: import('./types').WithId<PublicUserDoc>;
   }
 }
 
@@ -34,7 +34,7 @@ interface SearchDoc {
   knownUser: boolean;
   title: string;
   author: string;
-  uid: ObjectId | null;
+  uid: import('./types').ObjectId | null;
 }
 
 interface SignUpData {
@@ -80,4 +80,16 @@ interface PrivateUserDoc extends PublicUserDoc {
   email: string;
   phone: string;
   pass: string;
+}
+
+interface listDoc {
+  createdAt: Date;
+  updatedAt: Date | null;
+  userId: import('./types').ObjectId;
+  name: string;
+  likes: number;
+  books: string[];
+  public: boolean;
+  color: string;
+  views: 0;
 }

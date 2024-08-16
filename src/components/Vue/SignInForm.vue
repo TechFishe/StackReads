@@ -36,15 +36,15 @@
         <section class="flex w-full grid-rows-2 flex-col items-center space-y-2 px-4 md:grid md:grid-cols-2 md:gap-x-4 md:gap-y-2 md:space-y-0 lg:px-8">
           <input v-model="email" type="email" name="email" id="email" placeholder="Email" autocomplete="email" class="w-full rounded-md border-none bg-Woodsmoke-900/80 px-2 py-0.5 text-lg outline-none placeholder:text-base placeholder:italic" />
           <input v-model="pass" type="password" name="pass" id="pass" placeholder="Password" autocomplete="current-password" class="w-full rounded-md border-none bg-Woodsmoke-900/80 px-2 py-0.5 text-lg outline-none placeholder:text-base placeholder:italic" />
-          <div class="col-span-2 flex items-center justify-center space-x-2">
-            <label for="remember" class="relative flex">
+          <article class="col-span-2 flex items-center justify-center space-x-2">
+            <div class="relative flex">
               <input v-model="remember" type="checkbox" name="remember" id="remember" class="peer relative h-4 w-4 shrink-0 cursor-pointer appearance-none rounded-sm bg-Woodsmoke-900/80 transition-colors duration-100 ease-linear checked:bg-MonteCarlo-500" />
               <div class="pointer-events-none absolute top-0 hidden peer-checked:block">
                 <i class="fa-light fa-check" />
               </div>
-            </label>
+            </div>
             <label for="remember" class="cursor-text text-base font-thin">Remeber me?</label>
-          </div>
+          </article>
         </section>
         <div class="flex flex-col items-center">
           <span v-if="error != ''" class="font-medium text-red-500">{{ error }}</span>

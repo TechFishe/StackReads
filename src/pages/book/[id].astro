@@ -1,5 +1,8 @@
 ---
+// import BookBtn from '@astroBlocks/BookBtn';
 import MainLayout from '@layouts/MainLayout';
+
+import AddBtn from '@vueBlocks/Buttons/AddBook';
 
 import { parse } from 'node-html-parser';
 
@@ -25,7 +28,7 @@ let releaseDate: string[] = [];
 const tempDate: string = book.volumeInfo.publishedDate;
 const arrayDate = tempDate.split('-');
 
-releaseDate[1] = arrayDate[2];
+releaseDate[1] = parseInt(arrayDate[2]).toString();
 releaseDate[2] = arrayDate[0];
 switch (arrayDate[1]) {
   case '1':
@@ -61,7 +64,7 @@ switch (arrayDate[1]) {
       <img src={book.volumeInfo.imageLinks.thumbnail} alt="Book cover" class="rounded-sm h-60" />
       <section class="flex flex-col">
         <h1 class="md:text-5xl text-2xl font-medium tracking-tight pb-3">{book.volumeInfo.title}</h1>
-        <section class="flex flex-col w-fit py-1 border-t-2 border-t-SpringWood-50/35 pr-8">
+        <section class="flex flex-col w-fit py-1 border-t-2 border-t-SpringWood-50/35 pr-8 h-full">
           <div class="space-x-2 flex w-fit">
             <span class="text-xl tracking-tighter text-MonteCarlo-300">By:</span>
             <span class="text-lg tracking-tighter italic font-Playpen">{book.volumeInfo.authors}</span>
@@ -76,6 +79,10 @@ switch (arrayDate[1]) {
               {genres.map((genre) => <li>{genre.trim()},</li>)}
             </ul>
           </div> -->
+          <div class="space-x-2 flex w-fit h-full items-center">
+            <AddBtn bookId={Astro.params.id as string} client:only="vue" />
+            <!-- <BookBtn text="Like" icon="heart" /> -->
+          </div>
         </section>
       </section>
     </div>

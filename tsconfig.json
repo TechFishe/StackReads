@@ -8,7 +8,7 @@
       "@blocks/*": ["src/components/*.{astro,vue}"],
       "@astroBlocks/*": ["src/components/Astro/*.astro"],
       "@vueBlocks/*": ["src/components/Vue/*.vue"],
-      "@firebase/*": ["src/firebase/*.ts"]
+      "@vueButtons/*": ["src/components/Vue/Buttons/*.vue"]
     }
   }
 }

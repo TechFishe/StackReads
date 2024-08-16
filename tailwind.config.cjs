@@ -9,6 +9,11 @@ export default {
         Playpen: ["'Playpen Sans Variable'", 'cursive'],
       },
       colors: {
+        BiFlag: {
+          Pink: '#B00B69',
+          Purple: '#420A55',
+          Blue: '#042069',
+        },
         Woodsmoke: {
           50: '#f4f5f7',
           100: '#e4e5e9',
@@ -48,6 +53,9 @@ export default {
           900: '#1e4243',
           950: '#0c2627',
         },
+      },
+      dropShadow: {
+        Modal: ['0 20px 13px rgb(139, 215, 210, 0.075)', '0 8px 5px rgb(139, 215, 210, 0.1)'],
       },
     },
   },

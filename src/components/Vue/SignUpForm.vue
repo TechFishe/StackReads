@@ -191,7 +191,7 @@
           <div class="flex w-full items-center space-x-2 justify-self-center">
             <span class="rounded-md border px-4 py-1 text-xl">Hex</span>
             <input v-model="color" @input="setPfp" type="text" name="color" id="color" placeholder="Background color" autocomplete="off" class="w-full rounded-md bg-Woodsmoke-900/80 px-2 py-0.5 text-lg outline-0 placeholder:text-base placeholder:italic" />
-            <a href="https://nekocolor.com/" target="_blank" rel="noopener noreferrer" class="rounded-md border px-4 py-1 text-xl shadow-md shadow-transparent transition-all ease-out hover:border-MonteCarlo-500 hover:text-MonteCarlo-500 hover:shadow-MonteCarlo-300/30"><i class="fa-light fa-eye-dropper" /></a>
+            <a :href="`https://nekocolor.com/#${color}`" target="_blank" rel="noopener noreferrer" class="rounded-md border px-4 py-1 text-xl shadow-md shadow-transparent transition-all ease-out hover:border-MonteCarlo-500 hover:text-MonteCarlo-500 hover:shadow-MonteCarlo-300/30"><i class="fa-light fa-eye-dropper" /></a>
           </div>
           <button type="submit" class="w-fit justify-self-center rounded-md border px-4 py-1 text-xl shadow-md shadow-transparent transition-all ease-out hover:border-green-500 hover:text-green-500 hover:shadow-green-300/30">Submit</button>
         </section>

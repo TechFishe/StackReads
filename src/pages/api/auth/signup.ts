@@ -20,13 +20,26 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     let tempPass: string = await hash(data.pass, 12);
     newUser.pass = tempPass.slice(7, tempPass.length);
 
-    await userDb.insertOne(newUser);
+    const userId = (await userDb.insertOne(newUser)).insertedId;
+
+    // const listDb = mongo.db('Public').collection<listDoc>('tbr');
+    // await listDb.insertOne({
+    //   createdAt: new Date(),
+    //   updatedAt: null,
+    //   userId: userId,
+    //   name: 'Reads',
+    //   likes: 0,
+    //   books: [],
+    //   public: false,
+    // });
   } catch (err: any) {
     console.error(err);
     return new Response(null, {
       status: 500,
       statusText: 'Unable to sign up',
     });
+  } finally {
+    await mongo.close();
   }
 
   return redirect('/signin');

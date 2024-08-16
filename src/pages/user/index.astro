@@ -1,16 +1,64 @@
 ---
 import MainLayout from '@layouts/MainLayout';
+import ListBox from '@vueBlocks/ListBox';
+import AddList from '@vueButtons/AddList';
 
 const user = Astro.locals.user;
+const joinedOn = new Date(user.createdAt);
+let monthName = '';
+
+switch (joinedOn.getMonth()) {
+  case 1:
+    monthName = 'Jan';
+  case 2:
+    monthName = 'Feb';
+  case 3:
+    monthName = 'Mar';
+  case 4:
+    monthName = 'Apr';
+  case 5:
+    monthName = 'May';
+  case 6:
+    monthName = 'Jun';
+  case 7:
+    monthName = 'Jul';
+  case 8:
+    monthName = 'Aug';
+  case 9:
+    monthName = 'Sep';
+  case 10:
+    monthName = 'Oct';
+  case 11:
+    monthName = 'Nov';
+  case 12:
+    monthName = 'Dec';
+}
 ---
 
 <MainLayout title="User">
-  <main class="min-h-screen w-screen flex-col items-center justify-center pb-4 pt-24">
-    <section class="flex"></section>
-    <img src={user.pfp.uri} alt="Profile picture" />
-    <div class="flex-col">
-      <h1>{user.username}</h1>
-      <span></span>
-    </div>
+  <main class="min-h-screen w-screen flex-col items-center space-y-4 justify-center pb-4 pt-24">
+    <section class="flex w-full h-fit space-x-2 px-4">
+      <img src={user.pfp.uri} alt="Profile picture" class="w-60 rounded-md" />
+      <div class="flex flex-col">
+        <h1 class="md:text-6xl text-4xl font-medium tracking-tight">{user.username}</h1>
+        <section class="flex flex-col w-fit py-1 border-t-2 border-t-SpringWood-50/35 pr-8 h-full">
+          <div class="space-x-2 flex w-fit">
+            <span class="text-xl tracking-tighter text-MonteCarlo-300">Joined on:</span>
+            <span class="text-lg tracking-tighter italic font-Playpen">{monthName}. {joinedOn.getDate()}, {joinedOn.getFullYear()}</span>
+          </div>
+          <div class="space-x-2 flex w-fit">
+            <span class="text-xl tracking-tighter text-MonteCarlo-300">Fav. Animal:</span>
+            <span class="text-lg tracking-tighter italic font-Playpen">{user.animal}</span>
+          </div>
+        </section>
+      </div>
+    </section>
+    <section class="flex flex-col px-4">
+      <div class="flex items-center border-b-2 border-b-SpringWood-50/35 w-fit pb-3">
+        <h2 class="md:text-5xl text-3xl font-medium tracking-tight mr-4">Reading lists</h2>
+        <AddList client:only="vue" />
+      </div>
+      <ListBox baseUrl={Astro.url.origin} client:load />
+    </section>
   </main>
 </MainLayout>

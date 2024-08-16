@@ -1,0 +1,16 @@
+---
+import '@fontsource-variable/playpen-sans';
+
+interface Props {
+  text: string;
+  icon: string;
+}
+
+const { text, icon }: Props = Astro.props;
+---
+
+<button class="rounded-md border px-4 py-1 text-xl shadow-md shadow-transparent transition-all ease-out hover:border-MonteCarlo-500 hover:shadow-MonteCarlo-300/30 group relative">
+  <i class=`fa-light fa-${icon}`></i>
+  <span class="text-xl">{text}</span>
+  <!-- <span class="font-thin font-Playpen text-[10px] bg-Woodsmoke-800 px-0.5 rounded absolute origin-center object-center top-[3.5rem] right-1/2 scale-0 group-hover:scale-100 transition-transform ease-linear duration-100 delay-150 group-hover:delay-700 translate-x-1/2 border-SpringWood-50/50 border">{text}</span> -->
+</button>

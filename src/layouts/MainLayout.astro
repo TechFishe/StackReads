@@ -3,6 +3,7 @@ import '@fontsource-variable/red-hat-mono';
 
 import NavBtn from '@astroBlocks/NavBtn';
 import NavIsland from '@vueBlocks/NavIsland';
+import User from '@vueButtons/User';
 
 interface Props {
   title: string;
@@ -29,11 +30,11 @@ const { title }: Props = Astro.props;
         </div>
         <span class="lg:ml-4 text-6xl tracking-wide font-Playpen text-MonteCarlo-300 w-full text-center md:text-justify">StackReads</span>
       </section>
-      <nav class="md:flex w-1/2 md:items-center md:justify-end md:space-x-8 hidden">
+      <nav class="md:flex md:w-1/2 md:items-center md:justify-end md:space-x-8 hidden mr-2">
         <NavBtn text="Home" icon="house" url="/" />
         <NavBtn text="TBR" icon="bookmark" url="/user/tbr" />
         <NavBtn text="Search" icon="magnifying-glass" url="/search" />
-        <NavBtn text="User" icon="user" url="/user" />
+        <User client:idle />
       </nav>
     </header>
     <slot />
@@ -42,15 +43,15 @@ const { title }: Props = Astro.props;
         <NavBtn text="Home" icon="house" url="/" />
         <NavBtn text="TBR" icon="bookmark" url="/tbr" />
         <NavBtn text="Search" icon="magnifying-glass" url="/search" />
-        <NavBtn text="User" icon="user" url="/user" />
+        <User client:idle />
       </div>
     </NavIsland>
     <footer class="border-t border-t-SpringWood-50/50 px-4 py-1 h-[2.5rem] space-x-4 relative flex items-center justify-center">
       <span>Made with</span>
       <div class="flex space-x-2 items-center">
-        <i class="fa-solid fa-sharp fa-heart text-[#B00B69]"></i>
-        <i class="fa-solid fa-sharp fa-heart text-[#420A55]"></i>
-        <i class="fa-solid fa-sharp fa-heart text-[#042069]"></i>
+        <i class="fa-solid fa-sharp fa-heart text-BiFlag-Pink"></i>
+        <i class="fa-solid fa-sharp fa-heart text-BiFlag-Purple"></i>
+        <i class="fa-solid fa-sharp fa-heart text-BiFlag-Blue"></i>
       </div>
       <span>by Jacob Barker</span>
     </footer>

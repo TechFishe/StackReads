@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 const { verify, decode } = jwt;
 
-type ReturnFeilds = 'uid' | 'pfp' | 'all';
+type ReturnFeilds = 'uid' | 'pfp' | 'all' | 'none';
 
 export const GET: APIRoute = async ({ cookies, params }) => {
   const { returnFeild } = params;
@@ -59,6 +59,11 @@ export const GET: APIRoute = async ({ cookies, params }) => {
 
     case 'all':
       return new Response(JSON.stringify(user), {
+        status: 200,
+      });
+
+    case 'none':
+      return new Response(null, {
         status: 200,
       });
   }
