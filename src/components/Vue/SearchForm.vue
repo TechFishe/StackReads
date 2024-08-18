@@ -85,13 +85,13 @@
             <input v-model="author" type="text" autocomplete="off" name="author" id="author" placeholder="Author" class="w-full rounded-md bg-Woodsmoke-900/80 px-2 py-0.5 text-lg outline-0 placeholder:text-base placeholder:italic" />
           </section>
           <span v-if="error != ''" class="font-medium text-red-500">{{ error }}</span>
-          <button type="submit" class="rounded-md border px-4 py-1 text-xl shadow-md shadow-transparent transition-all ease-out hover:border-green-500 hover:text-green-500 hover:shadow-green-300/30">Submit</button>
+          <button type="submit" class="rounded-md border px-4 py-1 text-xl shadow-md shadow-transparent transition-all ease-out hover:border-green-500 hover:shadow-green-300/30">Submit</button>
         </form>
       </article>
     </div>
     <article v-if="currBooks.length !== 0" class="mt-8 w-11/12">
       <ul class="grid w-full grid-cols-2 grid-rows-5 items-end justify-evenly justify-items-center space-y-6 md:grid-cols-5 md:grid-rows-2 2xl:grid-cols-8 2xl:grid-rows-1 2xl:space-y-0">
-        <li v-for="book in currBooks" class="group h-72 w-48 bg-Woodsmoke-950 shadow-lg shadow-transparent transition-all ease-out hover:scale-105 hover:opacity-80 hover:shadow-MonteCarlo-300/40">
+        <li v-for="book in currBooks" class="md:h-66 group h-60 w-40 bg-Woodsmoke-950 shadow-lg shadow-transparent transition-all ease-out hover:scale-105 hover:opacity-80 hover:shadow-MonteCarlo-300/40 md:w-44 2xl:h-72 2xl:w-48">
           <a :href="props.url + `/book/${book.id}`" class="transition-opacity ease-out group-hover:opacity-90">
             <img :src="book.volumeInfo.imageLinks.thumbnail" alt="Book cover" class="h-full w-full rounded-sm" />
           </a>

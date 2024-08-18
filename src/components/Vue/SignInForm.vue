@@ -53,7 +53,7 @@
             Sign up <a href="/signup" class="underline transition-colors duration-100 ease-linear hover:text-MonteCarlo-300">here</a>.
           </p>
         </div>
-        <button type="submit" class="rounded-md border px-4 py-1 text-xl shadow-md shadow-transparent transition-all ease-out hover:border-green-500 hover:text-green-500 hover:shadow-green-300/30">Submit</button>
+        <button type="submit" class="rounded-md border px-4 py-1 text-xl shadow-md shadow-transparent transition-all ease-out hover:border-green-500 hover:shadow-green-300/30">Submit</button>
       </form>
     </article>
   </div>

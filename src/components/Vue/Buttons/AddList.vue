@@ -15,7 +15,7 @@
       return;
     }
 
-    const response = await fetch('/api/list/add', {
+    const response = await fetch('/api/list', {
       method: 'post',
       body: JSON.stringify({
         name: listName.value,
@@ -38,7 +38,7 @@
   <div>
     <dialog ref="modal" class="w-full rounded-md bg-Woodsmoke-900/60 py-3 text-SpringWood-50 drop-shadow-Modal backdrop:bg-Woodsmoke-950/60 backdrop:backdrop-blur-[1px] md:w-3/4 lg:w-2/3 xl:w-1/2 2xl:w-5/12">
       <section class="flex items-center justify-between border-b border-b-SpringWood-50/50 px-4">
-        <span class="text-xl md:text-4xl">New list</span>
+        <span class="text-xl tracking-tight md:text-4xl">New list</span>
         <button @click="() => modal?.close()" class="group relative flex items-center justify-center space-x-2 p-1.5 transition-transform ease-in hover:scale-110">
           <i class="fa-light fa-xmark h-6 w-6 transition-colors ease-in group-hover:text-MonteCarlo-300 md:h-8 md:w-8"></i>
           <span class="absolute right-1/2 top-[3.5rem] origin-center translate-x-1/2 scale-0 rounded border border-SpringWood-50/50 bg-Woodsmoke-800 object-center px-0.5 font-Playpen text-[10px] font-thin transition-transform delay-150 duration-100 ease-linear group-hover:scale-100 group-hover:delay-700">{text}</span>
