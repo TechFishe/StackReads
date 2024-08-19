@@ -8,7 +8,7 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "tidy": "prettier . --write"
+    "tidy": "prettier --write . && prettier --write **/*.astro ."
   },
   "dependencies": {
     "@astrojs/check": "^0.7.0",
