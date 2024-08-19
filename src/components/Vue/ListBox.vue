@@ -71,8 +71,8 @@
         </button>
       </section>
     </dialog>
-    <ul class="flex h-full space-x-4">
-      <li v-for="list in lists" :style="{ borderColor: list.color }" class="flex h-72 w-48 flex-col rounded border-2 py-0.5">
+    <ul class="grid w-full grid-cols-2 grid-rows-5 items-end justify-evenly justify-items-center space-y-6 md:grid-cols-5 md:grid-rows-2 2xl:grid-cols-8 2xl:grid-rows-1 2xl:space-y-0">
+      <li v-for="list in lists" :style="{ borderColor: list.color }" class="flex h-60 w-40 flex-col rounded border-2 py-0.5 md:h-[16.5rem] md:w-44 2xl:h-72 2xl:w-48">
         <span class="truncate px-2 pb-1 font-Playpen text-2xl font-light tracking-wide">{{ list.name }}</span>
         <ul class="border-y border-y-SpringWood-50/35 px-2 py-1">
           <li class="flex items-center">

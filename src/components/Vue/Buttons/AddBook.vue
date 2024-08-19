@@ -49,13 +49,13 @@
           <span class="absolute right-1/2 top-[3.5rem] origin-center translate-x-1/2 scale-0 rounded border border-SpringWood-50/50 bg-Woodsmoke-800 object-center px-0.5 font-Playpen text-[10px] font-thin transition-transform delay-150 duration-100 ease-linear group-hover:scale-100 group-hover:delay-700">{text}</span>
         </button>
       </section>
-      <ul class="grid space-x-2 space-y-4">
-        <li v-for="list in lists" class="flex w-fit items-center space-x-2 rounded-md bg-Woodsmoke-950/30 px-2 py-0.5 shadow-md shadow-SpringWood-300/15">
+      <ul class="grid grid-flow-row grid-cols-3 items-center gap-x-2 gap-y-4">
+        <li v-for="list in lists" class="flex h-fit w-full items-center space-x-2 rounded-md bg-Woodsmoke-950/30 px-2 py-0.5 shadow-md shadow-SpringWood-300/15">
           <button @click="() => addToTbr(list._id.toString())" class="group flex transition-transform ease-in hover:scale-110">
             <i class="fa-light fa-plus h-6 w-6 transition-colors ease-in group-hover:text-MonteCarlo-300"></i>
           </button>
           <div class="border-l border-l-SpringWood-50/25 pl-2">
-            <span class="font-Playpen text-xl font-light italic tracking-wide">{{ list.name }}</span>
+            <span class="truncate font-Playpen text-xl font-light italic tracking-wide">{{ list.name }}</span>
             <span class="text-xl">: </span>
             <span class="text-lg">{{ list.books.length }}</span>
           </div>
