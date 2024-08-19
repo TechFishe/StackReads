@@ -60,18 +60,18 @@ switch (arrayDate[1]) {
 
 <MainLayout title={book.volumeInfo.title}>
   <main class="pt-[5.5rem] flex-col min-h-screen w-screen flexpb-2">
-    <div class="flex w-full h-fit space-x-2 px-4">
+    <div class="flex w-full h-fit space-x-1 md:space-x-2 px-2 md:px-4">
       <img src={book.volumeInfo.imageLinks.thumbnail} alt="Book cover" class="rounded-sm h-60 w-40 md:h-[16.5rem] md:w-44 2xl:h-72 2xl:w-48" />
       <section class="flex flex-col">
-        <h1 class="md:text-5xl text-2xl font-medium tracking-tight pb-3">{book.volumeInfo.title}</h1>
+        <h1 class="md:text-5xl text-2xl font-medium tracking-tight pb-3 line-clamp-2 overflow-ellipsis">{book.volumeInfo.title}</h1>
         <section class="flex flex-col w-fit py-1 border-t-2 border-t-SpringWood-50/35 pr-8 h-full">
           <div class="space-x-2 flex w-fit">
-            <span class="md:text-xl text-base tracking-tighter text-MonteCarlo-300">By:</span>
-            <span class="md:text-lg text-sm tracking-tighter italic font-Playpen">{book.volumeInfo.authors}</span>
+            <span class="md:text-xl text-lg tracking-tighter text-MonteCarlo-300">By:</span>
+            <span class="md:text-lg text-base tracking-tighter italic font-Playpen">{book.volumeInfo.authors}</span>
           </div>
           <div class="space-x-2 flex w-fit">
-            <span class="md:text-xl text-base tracking-tighter text-MonteCarlo-300">Released on:</span>
-            <span class="md:text-lg text-sm tracking-tighter italic font-Playpen">{releaseDate[0]} {releaseDate[1]}, {releaseDate[2]}</span>
+            <span class="md:text-xl text-lg tracking-tighter text-MonteCarlo-300">Released on:</span>
+            <span class="md:text-lg text-base tracking-tighter italic font-Playpen">{releaseDate[0]} {releaseDate[1]}, {releaseDate[2]}</span>
           </div>
           <!-- <div class="space-x-2 flex w-fit">
             <span class="text-xl tracking-tighter text-MonteCarlo-300">Genres:</span>
