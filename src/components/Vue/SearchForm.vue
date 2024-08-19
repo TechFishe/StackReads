@@ -59,7 +59,10 @@
         title: title.value,
         author: author.value,
         uid: uid,
-      } as SearchData),
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
 
     if (books.length === 0) {

@@ -70,7 +70,7 @@ switch (arrayDate[1]) {
             <span class="md:text-lg text-base tracking-tighter italic font-Playpen">{book.volumeInfo.authors}</span>
           </div>
           <div class="space-x-2 flex w-fit">
-            <span class="md:text-xl text-lg tracking-tighter text-MonteCarlo-300">Released on:</span>
+            <span class="md:text-xl text-lg tracking-tighter text-MonteCarlo-300">Released</span>
             <span class="md:text-lg text-base tracking-tighter italic font-Playpen">{releaseDate[0]} {releaseDate[1]}, {releaseDate[2]}</span>
           </div>
           <!-- <div class="space-x-2 flex w-fit">
@@ -86,7 +86,7 @@ switch (arrayDate[1]) {
         </section>
       </section>
     </div>
-    <section id="ambientBg" class="py-4 px-4">{parse(book.volumeInfo.description)}</section>
+    <section id="ambientBg" class="md:py-4 py-2 px-2 md:px-4">{parse(book.volumeInfo.description)}</section>
   </main>
 </MainLayout>
 

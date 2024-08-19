@@ -18,6 +18,9 @@
         listId: listId,
         bookId: props.bookId,
       }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
 
     if (response.status !== 201) {

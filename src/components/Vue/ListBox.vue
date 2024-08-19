@@ -23,6 +23,9 @@
       body: JSON.stringify({
         listId: listToDelete.value._id.toString(),
       }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
 
     if (response.status !== 200) {

@@ -21,7 +21,10 @@
         email: email.value,
         pass: pass.value,
         remember: remember.value,
-      } as SignInData),
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
 
     if (response.redirected) window.location.assign(response.url);

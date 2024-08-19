@@ -133,7 +133,10 @@
           mouthNum: mouth.value,
           bgColor: color.value,
         },
-      } as SignUpData),
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
 
     if (response.redirected) {

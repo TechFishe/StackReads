@@ -6,10 +6,16 @@ import jwt from 'jsonwebtoken';
 
 const { sign } = jwt;
 
+interface requestData {
+  email: string;
+  pass: string;
+  remember: boolean;
+}
+
 export const POST: APIRoute = async ({ request, cookies, redirect }) => {
   const pass = import.meta.env.MONGO_DB_SIGNIN_PASS;
 
-  const data = (await request.json()) as SignInData;
+  const data = (await request.json()) as requestData;
 
   const mongo = new MongoClient(`mongodb+srv://signin:${pass}@main.zc2oijy.mongodb.net/?retryWrites=true&w=majority&appName=Main`);
   const userDb = mongo.db('Private').collection<PrivateUserDoc>('users');

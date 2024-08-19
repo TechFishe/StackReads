@@ -3,10 +3,27 @@ import type { APIRoute } from 'astro';
 import { MongoClient } from 'mongodb';
 import { hash } from 'bcrypt';
 
+interface requestData {
+  email: string;
+  phone: string;
+  pass: string;
+  username: string;
+  age: number;
+  gender: string;
+  animal: string;
+  pfp: {
+    uri: string;
+    eyebrowNum: number;
+    eyeNum: number;
+    mouthNum: number;
+    bgColor: string;
+  };
+}
+
 export const POST: APIRoute = async ({ request, redirect }) => {
   const pass = import.meta.env.MONGO_DB_SIGNIN_PASS;
 
-  const data = (await request.json()) as SignUpData;
+  const data = (await request.json()) as requestData;
 
   const mongo = new MongoClient(`mongodb+srv://signin:${pass}@main.zc2oijy.mongodb.net/?retryWrites=false&w=majority&appName=Main`);
   const userDb = mongo.db('Private').collection<PrivateUserDoc>('users');

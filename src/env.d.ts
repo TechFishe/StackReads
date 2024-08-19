@@ -23,41 +23,12 @@ interface ErrorInfo {
   text: string;
 }
 
-interface SearchData {
-  title: string;
-  author: string;
-  uid: string | null;
-}
-
 interface SearchDoc {
   timestamp: Date;
   knownUser: boolean;
   title: string;
   author: string;
   uid: import('./types').ObjectId | null;
-}
-
-interface SignUpData {
-  email: string;
-  phone: string;
-  pass: string;
-  username: string;
-  age: number;
-  gender: string;
-  animal: string;
-  pfp: {
-    uri: string;
-    eyebrowNum: number;
-    eyeNum: number;
-    mouthNum: number;
-    bgColor: string;
-  };
-}
-
-interface SignInData {
-  email: string;
-  pass: string;
-  remember: boolean;
 }
 
 interface PublicUserDoc {

@@ -2,10 +2,16 @@ import type { APIRoute } from 'astro';
 
 import { MongoClient, ObjectId } from 'mongodb';
 
+interface requestData {
+  title: string;
+  author: string;
+  uid: string | null;
+}
+
 export const POST: APIRoute = async ({ request }) => {
   const pass = import.meta.env.MONGO_DB_GENERAL_PASS;
 
-  const data = (await request.json()) as SearchData;
+  const data = (await request.json()) as requestData;
 
   const mongo = new MongoClient(`mongodb+srv://general:${pass}@main.zc2oijy.mongodb.net/?retryWrites=true&w=majority&appName=Main`);
   const searchDb = mongo.db('Private').collection<SearchDoc>('searches');
