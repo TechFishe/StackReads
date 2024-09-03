@@ -79,7 +79,7 @@
         <span class="truncate px-2 pb-1 font-Playpen text-2xl font-light tracking-wide">{{ list.name }}</span>
         <ul class="border-y border-y-SpringWood-50/35 px-2 py-1">
           <li class="flex items-center">
-            <i class="fa-solid fa-sharp fa-heart text-BiFlag-Pink h-4 w-4"></i>
+            <i class="fa-solid fa-sharp fa-heart h-4 w-4 text-BiFlag-Pink"></i>
             <span>: {{ list.likes }}</span>
           </li>
           <li class="flex items-center justify-between py-1">

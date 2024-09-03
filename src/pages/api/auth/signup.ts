@@ -34,8 +34,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
       lastSignedIn: null,
       ...data,
     };
-    let tempPass: string = await hash(data.pass, 12);
-    newUser.pass = tempPass.slice(7, tempPass.length);
+    newUser.pass = await hash(data.pass, 12);
 
     const userId = (await userDb.insertOne(newUser)).insertedId;
 
